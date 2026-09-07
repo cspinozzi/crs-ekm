@@ -1,326 +1,310 @@
 import Image from "next/image";
-import {
-  capabilities,
-  caseStudies,
-  contact,
-  contracts,
-  footer,
-  hero,
-  locations,
-  metrics,
-  mission,
-  partners,
-  SITE,
-} from "@/content/ekm";
-import { Header } from "./header";
-import styles from "./ekm.module.css";
-import { Testimonials } from "./testimonials";
+import type { CSSProperties } from "react";
+import "./scrollcraft.css";
+import "./split.css";
+import { ScrollCraftMount } from "./scrollcraft-mount";
+import { CTA, SITE, close, hero, peak, reach, rigor, sides, unease, weight } from "@/content/split";
 
-function Kicker({ children, centered = false }: { children: React.ReactNode; centered?: boolean }) {
-  return centered ? (
-    <div className={styles.centerKicker}>
-      <span />
-      {children}
-      <span />
-    </div>
-  ) : (
-    <div className={styles.kicker}>
-      <span />
-      {children}
-    </div>
-  );
+/** Overlapping cue windows across a pinned act: the first greets, the last closes at 1. */
+function quoteCue(i: number, n: number) {
+  // One quote per 0.2 of the act, each plateau centred on a sample point (0, .2, .4, .6, .8).
+  // The first greets, the last closes at 1 with a short ramp-out.
+  const c = Math.min(0.8, i * 0.2);
+  if (i === 0) return "0 0.12 0";
+  if (i === n - 1) return `${(c - 0.12).toFixed(2)} 1 0.2 0.12`;
+  return `${(c - 0.12).toFixed(2)} ${(c + 0.12).toFixed(2)} 0.25 0.25`;
 }
 
-function Brand() {
+export default function EkmSplitPage() {
   return (
-    <a className={styles.footerBrand} href={SITE} aria-label="Competitive Range Solutions home">
-      <Image src="/images/crs-logo.png" alt="" width={167} height={223} />
-      <span>
-        <strong>COMPETITIVE RANGE</strong>
-        <small>SOLUTIONS · SDVOSB</small>
-      </span>
-    </a>
-  );
-}
+    <>
+      <ScrollCraftMount />
+      <div className="sc-grain" aria-hidden="true" />
 
-export default function EkmPage() {
-  return (
-    <main className={styles.page}>
-      <Header />
+      {/* The chrome: the seam carries the two labels and the page's progress. */}
+      <div className="sp-divider" data-sp-divider aria-hidden="true">
+        <span className="sp-divider__line" />
+        <span className="sp-divider__fill" />
+        <span className="sp-divider__label sp-divider__label--left">{sides.left}</span>
+        <span className="sp-divider__label sp-divider__label--right">{sides.right}</span>
+      </div>
+      <a className="sp-mark" href={SITE} aria-label="Competitive Range Solutions home">
+        <Image src="/images/crs-logo.png" alt="" width={167} height={223} priority />
+      </a>
 
-      <section className={styles.hero} aria-labelledby="hero-title">
-        <Image
-          className={styles.heroImage}
-          src={hero.image.src}
-          alt={hero.image.alt}
-          fill
-          priority
-          sizes="100vw"
-        />
-        <div className={styles.heroShade} />
-        <div className={`${styles.inner} ${styles.heroInner}`}>
-          <Kicker>{hero.kicker}</Kicker>
-          <h1 id="hero-title">
-            {hero.headline} <em>{hero.highlight}</em>
-          </h1>
-          <h2>{hero.subheadline}</h2>
-          <p>{hero.paragraph}</p>
-          <div className={styles.heroActions}>
-            <a className={styles.primaryButton} href={hero.primary.href}>
-              {hero.primary.label}
-            </a>
-            <a className={styles.ghostButton} href={hero.ghost.href}>
-              {hero.ghost.label}
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.mission} aria-labelledby="mission-title">
-        <div className={`${styles.inner} ${styles.missionGrid}`}>
-          <div>
-            <Kicker>{mission.kicker}</Kicker>
-            <h2 id="mission-title" className={styles.missionTitle}>
-              {mission.headingLines.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </h2>
-          </div>
-          <div className={styles.missionCopy}>
-            <p>
-              <strong>{mission.p1Strong}</strong>
-              {mission.p1Rest}
-            </p>
-            <p>{mission.p2}</p>
-            <p className={styles.missionPromise}>{mission.p3}</p>
-            <aside className={styles.leadershipCard}>
-              <span>{mission.card.kicker}</span>
-              <p>{mission.card.body}</p>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <section id="metrics" className={styles.metrics} aria-labelledby="metrics-title">
-        <div className={styles.inner}>
-          <div className={styles.metricsHeader}>
-            <h2 id="metrics-title">{metrics.heading}</h2>
-            <span>{metrics.since}</span>
-          </div>
-          <div className={styles.metricsGrid}>
-            {metrics.stats.map((stat) => (
-              <article className={styles.metric} key={stat.label}>
-                <strong className={stat.small ? styles.metricSmallValue : ""}>{stat.value}</strong>
-                <h3>{stat.label}</h3>
-                <p>{stat.sub}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="capabilities" className={styles.capabilities} aria-labelledby="capabilities-title">
-        <div className={styles.inner}>
-          <Kicker>{capabilities.kicker}</Kicker>
-          <h2 id="capabilities-title" className={styles.sectionTitle}>
-            {capabilities.heading}
-          </h2>
-          <p className={styles.sectionLead}>{capabilities.sub}</p>
-
-          <div className={styles.capabilityGrid}>
-            {capabilities.cards.map((card) => (
-              <article className={styles.capabilityCard} key={card.n}>
-                <span>{card.n}</span>
-                <h3>{card.title}</h3>
-                <p>{card.body}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className={styles.environmentPanel}>
-            <h3>{capabilities.panel.title}</h3>
-            <div className={styles.environmentContent}>
-              <div className={styles.chips}>
-                {capabilities.panel.chips.map((chip) => (
-                  <span key={chip}>{chip}</span>
-                ))}
+      <main id="top" className="sp">
+        {/* 1 · Recognition: the split, established. */}
+        <section className="sp-act" data-sc-act="scrub" data-sc-span="1.3" data-sc-dwell="0.3" aria-labelledby="hero-title">
+          <div className="sp-stage" data-sc-stage>
+            <div className="sp-side sp-side--dark sp-hero__media">
+              {/* The engine swaps this frame-holder for the clip; a plain <img> is what it expects. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="sc-stage__poster" src={hero.poster} alt="" width={864} height={1080} />
+              <video data-sc-scrub data-sc-src={hero.clip} data-sc-src-mobile={hero.clipMobile} muted playsInline aria-label="Special operations forces on mission" />
+              <div className="sc-scrim sc-scrim--band" aria-hidden="true" />
+              <div className="sp-block sp-seam sp-hero__left">
+                <h2 className="sp-display sp-display--md sp-hero__h2" data-sc-cue="0 1 0 0">
+                  {hero.left.headline}
+                </h2>
               </div>
-              <div className={styles.networks}>
-                <strong>{capabilities.panel.networksLabel}</strong>
-                <div>
-                  {capabilities.panel.networks.map((network) => (
-                    <span key={network}>{network}</span>
+            </div>
+            <div className="sp-side sp-side--paper">
+              <div className="sp-block sp-seam">
+                <p className="sp-eyebrow" data-sc-cue="0 1 0 0">
+                  {hero.eyebrow}
+                </p>
+                <h1 id="hero-title" className="sp-display sp-display--xl" data-sc-cue="0 1 0 0" data-sc-kinetic="lines">
+                  {hero.right.h1}
+                </h1>
+                <p className="sp-lede" data-sc-cue="0 1 0 0">
+                  {hero.right.tagline}
+                </p>
+                <p data-sc-cue="0 1 0 0">
+                  <a className="sp-cta" href={CTA.href}>
+                    {CTA.label}
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 2 · Unease: the Government's words. Still, on purpose. */}
+        <section className="sp-flow sp-flow--tight" data-sc-act="flow" aria-label="Where program knowledge lived, and what the SOF enterprise needs">
+          <div className="sp-side sp-side--dark">
+            <div className="sp-block sp-seam">
+              <div data-sc-in data-sc-stagger="70">
+                <p className="sp-small">{unease.left.label}</p>
+                <p className="sp-quote-lg">{unease.left.body}</p>
+                <p className="sp-small sp-small--accent">{unease.left.verdict}</p>
+              </div>
+            </div>
+          </div>
+          <div className="sp-side sp-side--paper">
+            <div className="sp-block sp-seam">
+              <div data-sc-in data-sc-stagger="70">
+                <p className="sp-lede">
+                  <strong>{unease.right.strong}</strong>
+                  {unease.right.rest}
+                </p>
+                <p className="sp-body sp-body--strong">{unease.right.promise}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3 · Clarity, the peak: the filing. */}
+        <section className="sp-act sp-act--peak" data-sc-act="pin" data-sc-span="3.4" data-sp-peak aria-labelledby="peak-title">
+          <div className="sp-stage" data-sc-stage>
+            <div className="sp-side sp-side--dark sp-peak__left">
+              <ul className="sp-frags" aria-hidden="true">
+                {peak.fragments.map((f, i) => {
+                  const [x, y, r] = peak.scatter[i];
+                  const style = { "--fx": `${x}%`, "--fy": `${y}%`, "--fr": `${r}deg` } as CSSProperties;
+                  return (
+                    <li key={f} className="sp-frag" data-sp-frag={i} style={style}>
+                      {f}
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="sp-caption sp-seam">{peak.left.caption}</p>
+            </div>
+            <div className="sp-side sp-side--paper">
+              <div className="sp-block sp-seam">
+                <h2 id="peak-title" className="sp-display sp-display--lg">
+                  {peak.right.heading}
+                </h2>
+                <ol className="sp-shelf" aria-label="Filed into one environment">
+                  {peak.fragments.map((f, i) => (
+                    <li key={f} className="sp-slot" data-sp-slot={i}>
+                      <span className="sp-slot__text">{f}</span>
+                    </li>
+                  ))}
+                </ol>
+                <p className="sp-lede sp-peak__result" data-sc-cue="0.7 1 0.2 0.1">
+                  {peak.right.result}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 4 · Rigor: the ledger. */}
+        <section className="sp-flow" data-sc-act="flow" aria-labelledby="rigor-title">
+          <div className="sp-side sp-side--dark">
+            <div className="sp-block sp-seam">
+              <div data-sc-in>
+                <h2 className="sp-display sp-display--md">{rigor.left.heading}</h2>
+              </div>
+            </div>
+          </div>
+          <div className="sp-side sp-side--paper">
+            <div className="sp-block sp-seam">
+              <div data-sc-in data-sc-stagger="70">
+                <h2 id="rigor-title" className="sp-display sp-display--md">
+                  {rigor.right.heading}
+                </h2>
+                <p className="sp-body">{rigor.right.sub}</p>
+              </div>
+            </div>
+          </div>
+          <dl className="sp-ledger">
+            {rigor.rows.map((row) => (
+              <div className="sp-ledger__row" key={row.title} data-sc-in data-sc-stagger="60">
+                <dt className="sp-ledger__k sp-side--dark">
+                  <span className="sp-seam">{row.title}</span>
+                </dt>
+                <dd className="sp-ledger__v sp-side--paper">
+                  <span className="sp-seam">{row.body}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        {/* 5 · Weight: their words against the record. */}
+        <section className="sp-act" data-sc-act="pin" data-sc-span="2.4" aria-labelledby="weight-title">
+          <div className="sp-stage" data-sc-stage>
+            <div className="sp-side sp-side--dark">
+              <div className="sp-block sp-seam">
+                <h2 className="sp-display sp-display--sm">{weight.left.heading}</h2>
+                <div className="sp-quotes__stack">
+                  {weight.left.quotes.map((q, i) => (
+                    <blockquote className="sp-quote" key={q.text} data-sc-cue={quoteCue(i, weight.left.quotes.length)}>
+                      <p>“{q.text}”</p>
+                      <footer>{q.by}</footer>
+                    </blockquote>
                   ))}
                 </div>
+                <ul className="sp-seals" aria-label="Mission partners">
+                  {weight.left.seals.map((s) => (
+                    <li key={s.alt}>
+                      <Image src={s.src} alt={s.alt} width={232} height={232} />
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.partners} aria-labelledby="partners-title">
-        <div className={`${styles.inner} ${styles.partnersCopy}`}>
-          <Kicker>{partners.kicker}</Kicker>
-          <p id="partners-title">{partners.paragraph}</p>
-        </div>
-        <div className={styles.ticker} aria-label="Mission partners">
-          <div className={styles.tickerTrack}>
-            {[...partners.logos, ...partners.logos].map((logo, index) => (
-              <div className={styles.partnerLogo} aria-hidden={index >= partners.logos.length} key={`${logo.alt}-${index}`}>
-                <Image src={logo.src} alt={index < partners.logos.length ? logo.alt : ""} width={232} height={232} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="contracts" className={styles.contracts} aria-labelledby="contracts-title">
-        <div className={styles.contractInner}>
-          <Kicker centered>{contracts.kicker}</Kicker>
-          <h2 id="contracts-title">{contracts.heading}</h2>
-          <article className={styles.vehicleCard}>
-            <span className={styles.redLabel}>{contracts.card.kicker}</span>
-            <h3>{contracts.card.title}</h3>
-            <p>{contracts.card.body}</p>
-            <dl>
-              {contracts.card.rows.map((row) => (
-                <div key={row.label}>
-                  <dt>{row.label}</dt>
-                  <dd className={row.strong ? styles.factStrong : ""}>{row.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </article>
-        </div>
-      </section>
-
-      <section id="case-study" className={styles.caseStudies} aria-label="Case studies">
-        <div className={styles.caseInner}>
-          {caseStudies.items.map((study, studyIndex) => (
-            <article className={styles.caseStudy} key={study.title}>
-              {studyIndex === 0 ? <Kicker centered>{caseStudies.kicker}</Kicker> : <div className={styles.caseDivider} />}
-              <h2>{study.title}</h2>
-              <p className={styles.caseSub}>{study.sub}</p>
-              <div className={styles.caseStats}>
-                {study.stats.map((stat) => (
-                  <div key={stat.label}>
-                    <strong>{stat.value}</strong>
-                    <p>{stat.label}</p>
+            <div className="sp-side sp-side--paper">
+              <div className="sp-block sp-seam">
+                <h2 id="weight-title" className="sp-display sp-display--md">
+                  {weight.right.heading} <span className="sp-muted">{weight.right.since}</span>
+                </h2>
+                <dl className="sp-numbers">
+                  {weight.right.numbers.map((n, i) => (
+                    <div key={n.label}>
+                      <dt>
+                        {n.label}
+                        <small>{n.sub}</small>
+                      </dt>
+                      <dd className="sp-num">
+                        {n.prefix}
+                        <span data-sc-count={`0 ${n.value}`} data-sc-count-at={`${(0.08 + i * 0.06).toFixed(2)} ${(0.45 + i * 0.05).toFixed(2)}`}>
+                          0
+                        </span>
+                        {n.suffix}
+                      </dd>
+                    </div>
+                  ))}
+                  <div>
+                    <dt>
+                      {weight.right.cpars.label}
+                      <small>{weight.right.cpars.sub}</small>
+                    </dt>
+                    <dd className="sp-num sp-num--word">{weight.right.cpars.value}</dd>
                   </div>
-                ))}
-              </div>
-              <div className={styles.caseDetails}>
-                <div>
-                  <span>{caseStudies.problemLabel}</span>
-                  <p>{study.problem}</p>
-                </div>
-                <div>
-                  <span>{caseStudies.solutionLabel}</span>
-                  <p>{study.solution}</p>
-                </div>
-              </div>
-              <div className={styles.caseActions}>
-                <a className={styles.primaryButton} href={study.pdf} target="_blank" rel="noreferrer">
-                  {caseStudies.readLabel}
-                </a>
-                <a className={styles.ghostButton} href={study.pdf} target="_blank" rel="noreferrer">
-                  {caseStudies.downloadLabel}
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="locations" className={styles.locations} aria-labelledby="locations-title">
-        <div className={styles.inner}>
-          <Kicker>{locations.kicker}</Kicker>
-          <h2 id="locations-title" className={styles.sectionTitle}>
-            {locations.heading}
-          </h2>
-          <p className={styles.sectionLead}>{locations.sub}</p>
-          <div className={styles.locationsGrid}>
-            {locations.cells.map((location) => (
-              <article className={location.hq ? styles.locationHq : ""} key={location.name}>
-                <h3>{location.name}</h3>
-                <p>{location.place}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Testimonials />
-
-      <section id="contact" className={styles.contact} aria-labelledby="contact-title">
-        <div className={`${styles.inner} ${styles.contactGrid}`}>
-          <div>
-            <h2 id="contact-title">{contact.heading}</h2>
-            <p>{contact.paragraph}</p>
-          </div>
-          <div className={styles.contactRail}>
-            <span className={styles.redLabel}>{contact.kicker}</span>
-            <div className={styles.person}>
-              <Image src={contact.person.photo.src} alt={contact.person.photo.alt} width={600} height={800} />
-              <div>
-                <h3>{contact.person.name}</h3>
-                <p>{contact.person.title}</p>
-                <a href={contact.person.email.href}>{contact.person.email.label}</a>
-                <a href={contact.person.phone.href}>{contact.person.phone.label}</a>
-                <a href={contact.person.linkedin.href} target="_blank" rel="noreferrer">
-                  {contact.person.linkedin.label}
-                </a>
-              </div>
-            </div>
-            <div className={styles.contactFacts}>
-              <div>
-                <strong>{contact.hq.label}</strong>
-                {contact.hq.lines.map((line) => <span key={line}>{line}</span>)}
-              </div>
-              <div>
-                <strong>{contact.setAside.label}</strong>
-                {contact.setAside.lines.map((line) => <span key={line}>{line}</span>)}
-              </div>
-              <div>
-                <strong>{contact.connect.label}</strong>
-                <a href={contact.connect.link.href} target="_blank" rel="noreferrer">
-                  {contact.connect.link.label}
-                </a>
+                </dl>
+                <p className="sp-fine">{weight.right.vehicle}</p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <footer className={styles.footer}>
-        <div className={`${styles.inner} ${styles.footerTop}`}>
-          <div>
-            <Brand />
-            <p>{footer.tagline}</p>
+        {/* 6 · Reach: four networks against thirteen commands. */}
+        <section className="sp-flow" data-sc-act="flow" aria-labelledby="reach-title">
+          <div className="sp-side sp-side--dark">
+            <div className="sp-block sp-seam">
+              <div data-sc-in data-sc-stagger="60">
+                <h2 className="sp-display sp-display--md">{reach.left.heading}</h2>
+                <ul className="sp-networks">
+                  {reach.left.networks.map((n) => (
+                    <li key={n}>{n}</li>
+                  ))}
+                </ul>
+                <p className="sp-tools">{reach.left.tools.join(" · ")}</p>
+              </div>
+            </div>
           </div>
-          <div className={styles.footerColumns}>
-            {footer.columns.map((column) => (
-              <nav key={column.label} aria-label={column.label}>
-                <strong>{column.label}</strong>
-                {column.links.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target={"external" in link && link.external ? "_blank" : undefined}
-                    rel={"external" in link && link.external ? "noreferrer" : undefined}
-                  >
-                    {link.label}
-                  </a>
+          <div className="sp-side sp-side--paper">
+            <div className="sp-block sp-seam">
+              <div data-sc-in data-sc-stagger="60">
+                <h2 id="reach-title" className="sp-display sp-display--md">
+                  {reach.right.heading}
+                </h2>
+                <p className="sp-body">{reach.right.sub}</p>
+              </div>
+              <ul className="sp-commands" data-sc-reveal="left" data-sc-reveal-at="0.12 0.55">
+                {reach.right.commands.map((c) => (
+                  <li key={c.name}>
+                    <strong>{c.name}</strong>
+                    <span>{c.place}</span>
+                  </li>
                 ))}
-              </nav>
-            ))}
+              </ul>
+            </div>
           </div>
-        </div>
-        <div className={`${styles.inner} ${styles.footerBottom}`}>
-          <span>{footer.copyright}</span>
-          <span>{footer.registry}</span>
-        </div>
-      </footer>
-    </main>
+        </section>
+
+        {/* 7 · Resolve: the collapse. Last element on the page. */}
+        <section className="sp-act sp-act--close" data-sc-act="pin" data-sc-span="1.3" data-sp-close aria-labelledby="close-title">
+          <div className="sp-stage" data-sc-stage>
+            <div className="sp-side sp-side--dark" aria-hidden="true" />
+            <div className="sp-side sp-side--paper sp-close">
+              <div className="sp-block sp-block--wide sp-seam">
+                <div>
+                  <h2 id="close-title" className="sp-display sp-display--lg" data-sc-cue="0 1 0 0">
+                    {close.heading}
+                  </h2>
+                  <p className="sp-body">{close.paragraph}</p>
+                  <div className="sp-poc">
+                    <Image className="sp-poc__photo" src={close.person.photo.src} alt={close.person.photo.alt} width={600} height={800} />
+                    <div className="sp-poc__info">
+                      <strong>{close.person.name}</strong>
+                      <span>{close.person.title}</span>
+                      <a href={close.person.email.href}>{close.person.email.label}</a>
+                      <a href={close.person.phone.href}>{close.person.phone.label}</a>
+                      <a href={close.person.linkedin.href} target="_blank" rel="noreferrer">
+                        Connect on LinkedIn
+                      </a>
+                    </div>
+                  </div>
+                  <p className="sp-close__cta">
+                    <a className="sp-cta" href={CTA.href}>
+                      {CTA.label}
+                    </a>
+                  </p>
+                  <p className="sp-event">
+                    <strong>{close.event.lead}</strong> {close.event.when} <a href={close.event.link.href}>{close.event.link.label}</a>
+                  </p>
+                </div>
+              </div>
+              <footer className="sp-foot sp-seam">
+                <nav aria-label="Competitive Range Solutions">
+                  {close.links.map((l) => (
+                    <a key={l.label} href={l.href}>
+                      {l.label}
+                    </a>
+                  ))}
+                </nav>
+                {close.fine.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </footer>
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
   );
 }

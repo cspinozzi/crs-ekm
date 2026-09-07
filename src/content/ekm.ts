@@ -307,3 +307,21 @@ export const footer = {
   copyright: "© 2026 Competitive Range Solutions, LLC. All rights reserved.",
   registry: "UEI RM9GACFMSLG7 · CAGE 6LDB2 · GSA Polaris GWAC SDVOSB Pool",
 };
+
+export const events = {
+  eyebrow: "UPCOMING EVENT",
+  title: "SOF Contract Hiring Event",
+  summary:
+    "Meet the CRS team and explore cleared contingent positions supporting the U.S. Department of War Special Operations Forces requirement at MacDill Air Force Base.",
+  countdownLabel: "EVENT STARTS IN",
+  /** Wednesday, September 16, 2026, 5:30 PM Eastern (UTC-4). */
+  startsAt: "2026-09-16T17:30:00-04:00",
+  detailLines: ["Wednesday, September 16, 2026  •  5:30 – 7:00 PM ET", "JW Marriott Tampa Water Street"],
+  button: { label: "OPEN / DOWNLOAD FLYER", href: `${SITE}/ekm/events/sof-hiring-event-flyer` },
+  flyer: {
+    src: "/images/sof-hiring-event-flyer.png",
+    alt: "CRS SOF Contract Hiring Event flyer: September 16, 2026 at JW Marriott Tampa Water Street",
+    width: 2550,
+    height: 3300,
+  },
+};

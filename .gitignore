@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# scrollcraft verification output and raw render intermediates
+scrollcraft/lab/
+scrollcraft/builds/*/out/
+.claude/settings.local.json
