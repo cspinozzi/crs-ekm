@@ -177,13 +177,24 @@ export default function EkmSplitPage() {
                     </blockquote>
                   ))}
                 </div>
-                <ul className="sp-seals" aria-label="Mission partners">
-                  {weight.left.seals.map((s) => (
-                    <li key={s.alt}>
-                      <Image src={s.src} alt={s.alt} width={232} height={232} />
-                    </li>
-                  ))}
-                </ul>
+                <div className="sp-seals" role="group" aria-label="Mission partners">
+                  {[0, 1, 2].map((row) => {
+                    const seals = weight.left.seals;
+                    const shift = Math.round((row * seals.length) / 3);
+                    const ordered = [...seals.slice(shift), ...seals.slice(0, shift)];
+                    return (
+                      <div className="sp-seals__row" data-row={row} key={row}>
+                        <div className="sp-seals__track">
+                          {[...ordered, ...ordered].map((s, i) => (
+                            <div className="sp-seal" aria-hidden={i >= ordered.length} key={`${s.alt}-${i}`}>
+                              <Image src={s.src} alt={i < ordered.length ? s.alt : ""} width={232} height={232} />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
             <div className="sp-side sp-side--paper">
