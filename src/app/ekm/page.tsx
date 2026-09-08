@@ -270,16 +270,13 @@ export default function EkmSplitPage() {
         {/* 7 · Resolve: the collapse. Last element on the page. */}
         <section className="sp-act sp-act--close" data-sc-act="pin" data-sc-span="1.3" data-sp-close aria-labelledby="close-title">
           <div className="sp-stage" data-sc-stage>
-            <div className="sp-side sp-side--dark sp-close__lead">
-              <div className="sp-block sp-seam">
-                <h2 id="close-title" className="sp-display sp-display--lg" data-sc-cue="0 1 0 0">
-                  {close.heading}
-                </h2>
-              </div>
-            </div>
+            <div className="sp-side sp-side--dark" aria-hidden="true" />
             <div className="sp-side sp-side--paper sp-close">
               <div className="sp-block sp-block--wide sp-seam">
                 <div>
+                  <h2 id="close-title" className="sp-display sp-display--lg" data-sc-cue="0 1 0 0">
+                    {close.heading}
+                  </h2>
                   <p className="sp-body">{close.paragraph}</p>
                   <div className="sp-poc">
                     <Image className="sp-poc__photo" src={close.person.photo.src} alt={close.person.photo.alt} width={600} height={800} />

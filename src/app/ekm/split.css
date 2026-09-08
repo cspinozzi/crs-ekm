@@ -113,9 +113,6 @@ body {
   align-items: flex-end;
   text-align: right;
 }
-.sp-close__lead {
-  justify-content: center;
-}
 .sp-side--paper {
   align-items: flex-start;
 }
