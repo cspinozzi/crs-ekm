@@ -1,9 +1,17 @@
 :root {
-  color-scheme: light;
-  --ink: #14171c;
-  --night: #0c0f14;
-  --paper: #fafaf9;
-  --red: #c8102e;
+  color-scheme: dark;
+  --black: #000;
+  --panel: #0a0a0b;
+  --glass: rgba(255, 255, 255, 0.1);
+  --cream: #faf5ea;
+  --white: #fff;
+  --red: #fe3439;
+  --muted: #999;
+  --soft: #ccc;
+  --line: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.4);
+  --card-border: #333;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * {
@@ -11,8 +19,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  background: var(--night);
+  background: var(--black);
 }
 
 html,
@@ -22,9 +29,9 @@ body {
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-barlow), Arial, Helvetica, sans-serif;
+  background: var(--black);
+  color: var(--cream);
+  font-family: var(--font-satoshi), "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -44,4 +51,15 @@ select {
 img {
   display: block;
   max-width: 100%;
+}
+
+::selection {
+  background: var(--red);
+  color: var(--black);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

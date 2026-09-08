@@ -1,85 +1,86 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type MouseEvent } from "react";
+import { useEffect, useState, type CSSProperties, type MouseEvent } from "react";
 import { nav, SITE } from "@/content/ekm";
 import styles from "./ekm.module.css";
+import { scrollToHash, setScrollLocked } from "./smooth-scroll";
 
 export function Header() {
   const [open, setOpen] = useState(false);
 
-  const close = () => setOpen(false);
+  useEffect(() => {
+    setScrollLocked(open);
+    if (!open) return;
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   const navigateToSection = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     event.preventDefault();
     setOpen(false);
-
-    window.setTimeout(() => {
-      window.requestAnimationFrame(() => {
-        document.querySelector(href)?.scrollIntoView();
-        window.history.pushState(null, "", href);
-      });
-    }, 280);
+    window.setTimeout(() => scrollToHash(href), 160);
   };
 
   return (
-    <header className={`${styles.header} ${open ? styles.headerOpen : ""}`}>
-      <div className={styles.headerInner}>
+    <>
+      <header className={styles.header}>
         <a className={styles.brand} href={SITE} aria-label="Competitive Range Solutions home">
-          <Image
-            className={styles.brandLogo}
-            src="/images/crs-logo.png"
-            alt="Competitive Range Solutions"
-            width={167}
-            height={223}
-            priority
-          />
-          <span className={styles.wordmark}>
-            <strong>COMPETITIVE RANGE</strong>
-            <small>SOLUTIONS · SDVOSB</small>
+          <Image src="/images/crs-logo.png" alt="" width={167} height={223} priority />
+          <span className={styles.srOnly}>
+            {nav.brand.wordmark} · {nav.brand.tagline}
           </span>
         </a>
 
-        <nav className={styles.desktopNav} aria-label="EKM navigation">
-          {nav.links.map((item) => (
-            <a key={item.href} href={item.href}>
-              {item.label}
-            </a>
-          ))}
-          <a className={styles.careerButton} href={nav.careers.href}>
-            {nav.careers.label}
+        <div className={styles.headerActions}>
+          <a className={`${styles.button} ${styles.buttonSmall} ${styles.headerCta}`} href={nav.careers.href}>
+            <span>{nav.careers.label}</span>
           </a>
-        </nav>
-
-        <button
-          className={`${styles.menuToggle} ${open ? styles.menuToggleOpen : ""}`}
-          type="button"
-          aria-expanded={open}
-          aria-controls="ekm-mobile-menu"
-          aria-label={open ? "Close navigation" : "Open navigation"}
-          onClick={() => setOpen((value) => !value)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-      </div>
+          <button
+            className={`${styles.menuToggle} ${open ? styles.menuToggleOpen : ""}`}
+            type="button"
+            aria-expanded={open}
+            aria-controls="ekm-menu"
+            aria-label={open ? "Close navigation" : "Open navigation"}
+            onClick={() => setOpen((value) => !value)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
+      </header>
 
       <nav
-        id="ekm-mobile-menu"
-        className={styles.mobileNav}
-        aria-label="Mobile EKM navigation"
+        id="ekm-menu"
+        className={`${styles.menu} ${open ? styles.menuOpen : ""}`}
+        aria-label="EKM navigation"
         aria-hidden={!open}
       >
-        {nav.links.map((item) => (
-          <a key={item.href} href={item.href} onClick={(event) => navigateToSection(event, item.href)}>
-            {item.label}
-          </a>
-        ))}
-        <a className={styles.careerButton} href={nav.careers.href} onClick={close}>
-          {nav.careers.label}
-        </a>
+        <ul>
+          {nav.links.map((item, index) => (
+            <li key={item.href} style={{ "--i": index } as CSSProperties}>
+              <a href={item.href} tabIndex={open ? 0 : -1} onClick={(event) => navigateToSection(event, item.href)}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+          <li style={{ "--i": nav.links.length } as CSSProperties}>
+            <a
+              className={`${styles.button} ${styles.buttonSmall} ${styles.menuCta}`}
+              href={nav.careers.href}
+              tabIndex={open ? 0 : -1}
+              onClick={() => setOpen(false)}
+            >
+              <span>{nav.careers.label}</span>
+            </a>
+          </li>
+        </ul>
       </nav>
-    </header>
+    </>
   );
 }

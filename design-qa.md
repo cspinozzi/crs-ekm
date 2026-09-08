@@ -1,3 +1,9 @@
+> **Superseded (exploration-v3).** This QA documented the pixel-accurate clone of
+> `getcrs.com/ekm`. The `exploration-v3` branch restyles the page to match the
+> UI, typography and interactions of the rest of getcrs.com (Satoshi, black /
+> cream / red palette, outlined buttons, full-screen menu, Lenis smooth scroll),
+> so the geometry comparisons below no longer apply. Copy is unchanged.
+
 # Design QA — CRS EKM clone
 
 ## Final result

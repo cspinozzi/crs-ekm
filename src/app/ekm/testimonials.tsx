@@ -1,45 +1,65 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import { testimonials } from "@/content/ekm";
 import styles from "./ekm.module.css";
 
+const COLUMNS = 3;
+
+type Quote = (typeof testimonials.quotes)[number];
+
+function MarqueeColumn({
+  quotes,
+  duration,
+  reverse,
+  className = "",
+}: {
+  quotes: Quote[];
+  duration: number;
+  reverse: boolean;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`${styles.marqueeColumn} ${className}`}
+      style={{ "--duration": `${duration}s`, "--direction": reverse ? "reverse" : "normal" } as CSSProperties}
+    >
+      <div className={styles.marqueeTrack}>
+        {[...quotes, ...quotes].map((quote, index) => (
+          <figure className={styles.quoteCard} key={index} aria-hidden={index >= quotes.length || undefined}>
+            <blockquote>
+              <p>“{quote.text}”</p>
+            </blockquote>
+            <figcaption>{quote.by}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function Testimonials() {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setActive((index) => (index + 1) % testimonials.quotes.length);
-    }, 6000);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const quote = testimonials.quotes[active];
+  const columns = Array.from({ length: COLUMNS }, (_, column) =>
+    testimonials.quotes.filter((_, index) => index % COLUMNS === column),
+  );
 
   return (
-    <section className={styles.testimonials} aria-labelledby="testimonials-title">
+    <section id="testimonials" className={styles.testimonials} aria-labelledby="testimonials-title">
       <div className={styles.inner}>
-        <div className={`${styles.centerKicker} ${styles.testimonialKicker}`} id="testimonials-title">
-          <span />
+        <h2 id="testimonials-title" className={`${styles.title} ${styles.titleCenter}`}>
           {testimonials.kicker}
-          <span />
-        </div>
-        <blockquote className={styles.quote} key={active}>
-          “{quote.text}”
-        </blockquote>
-        <p className={styles.quoteBy}>— {quote.by}</p>
-        <div className={styles.quoteDots} aria-label="Quote pagination">
-          {testimonials.quotes.map((item, index) => (
-            <button
-              key={item.text}
-              type="button"
-              aria-label={`Show quote ${index + 1}`}
-              aria-pressed={index === active}
-              className={index === active ? styles.quoteDotActive : ""}
-              onClick={() => setActive(index)}
-            />
-          ))}
-        </div>
+        </h2>
+      </div>
+
+      <div className={styles.marquee}>
+        {columns.map((quotes, column) => (
+          <MarqueeColumn key={column} quotes={quotes} duration={36 + column * 9} reverse={column % 2 === 1} />
+        ))}
+        {/* Single column for narrow screens so every quote stays visible. */}
+        <MarqueeColumn
+          className={styles.marqueeAll}
+          quotes={testimonials.quotes}
+          duration={70}
+          reverse={false}
+        />
       </div>
     </section>
   );
