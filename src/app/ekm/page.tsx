@@ -8,10 +8,10 @@ import { CTA, SITE, close, hero, peak, reach, rigor, sides, unease, weight } fro
 /** Overlapping cue windows across a pinned act: the first greets, the last closes at 1. */
 function quoteCue(i: number, n: number) {
   // One quote per 0.2 of the act, each plateau centred on a sample point (0, .2, .4, .6, .8).
-  // The first greets, the last closes at 1 with a short ramp-out.
+  // The first greets; the last enters and holds, so the column never goes empty.
   const c = Math.min(0.8, i * 0.2);
   if (i === 0) return "0 0.12 0";
-  if (i === n - 1) return `${(c - 0.12).toFixed(2)} 1 0.2 0.12`;
+  if (i === n - 1) return (c - 0.12).toFixed(2);
   return `${(c - 0.12).toFixed(2)} ${(c + 0.12).toFixed(2)} 0.25 0.25`;
 }
 
