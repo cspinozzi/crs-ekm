@@ -7,21 +7,23 @@
    ============================================================================ */
 
 :root {
-  --night: #1a1e25; /* left ground, lifted a step so the right side sits deeper */
-  --paper: #0c0f14; /* right ground: the deepest black on the page */
-  --red: #c8102e;
-  --red-deep: #a50d26;
-  --rose: #f0404c; /* red for dark grounds: brand red lifted so small caps clear 4.5:1 on night */
+  --night: #171717; /* left ground: a neutral lift off the home's black */
+  --paper: #000; /* right ground: the home's black */
+  --red: #fe3439; /* the home's red */
+  --red-deep: #d92a30;
+  --rose: var(--red);
   --ink-dark: #14171c;
   --ink-light: #faf5ea; /* cream, as on the home */
   --line: rgba(255, 255, 255, 0.12);
   --line-strong: rgba(255, 255, 255, 0.4);
+  --soft: #ccc;
+  --muted: #999;
 
   /* scrollcraft tokens */
   --sc-canvas: var(--night);
-  --sc-surface: #14171c;
+  --sc-surface: #0a0a0b;
   --sc-ink: var(--ink-light);
-  --sc-ink-soft: #a9aeb5;
+  --sc-ink-soft: var(--soft);
   --sc-accent: var(--rose);
   --sc-accent-ink: var(--night);
   --sc-font-display: var(--font-satoshi), "Satoshi", system-ui, sans-serif;
@@ -52,7 +54,7 @@ body {
 .sp-paper {
   --ground: var(--paper);
   --sc-ink: var(--ink-light);
-  --sc-ink-soft: #a9aeb5;
+  --sc-ink-soft: var(--soft);
   --sc-accent: var(--red);
   --sc-accent-ink: #fff;
   color: var(--sc-ink);
@@ -60,7 +62,7 @@ body {
 .sp-side--dark {
   --sc-ink: var(--ink-light);
   --ground: var(--night);
-  --sc-ink-soft: #a9aeb5;
+  --sc-ink-soft: var(--soft);
   --sc-accent: var(--rose);
   color: var(--sc-ink);
 }
@@ -129,7 +131,7 @@ body {
 }
 .sp-block > * + *,
 .sp-block > [data-sc-in] > * + * {
-  margin-top: var(--sc-4);
+  margin-top: 22px;
 }
 /* Anything that hugs the seam travels with it. */
 .sp-seam {
@@ -197,7 +199,7 @@ body {
   display: grid;
   place-items: center;
   background: var(--night);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--paper) 18%, transparent);
+  box-shadow: 0 0 0 1px var(--line-strong);
 }
 .sp-mark img {
   width: 20px;
@@ -208,28 +210,37 @@ body {
 .sp-display {
   margin: 0;
   font-family: var(--sc-font-display);
-  font-weight: 300;
-  line-height: 1.0;
+  font-weight: 400;
+  line-height: 1;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   text-wrap: balance;
   color: var(--sc-ink);
 }
 .sp-display--xl {
-  font-size: clamp(2.6rem, 1.6rem + 3.8vw, 5rem);
+  font-size: clamp(36px, 1.2rem + 3vw, 68px);
+  font-weight: 700;
+  line-height: 1.05;
   text-transform: none;
 }
+.sp-display--xl em {
+  color: var(--red);
+  font-style: normal;
+}
 .sp-display--lg {
-  font-size: clamp(2.2rem, 1.4rem + 2.6vw, 3.6rem);
+  font-size: clamp(32px, 1rem + 2.6vw, 56px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
 }
 .sp-display--md {
-  font-size: clamp(1.9rem, 1.3rem + 1.8vw, 2.9rem);
-  line-height: 1.02;
+  font-size: clamp(26px, 1rem + 1.6vw, 38px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
 }
 .sp-display--sm {
-  font-size: clamp(1.4rem, 1.1rem + 0.9vw, 1.9rem);
-  line-height: 1.1;
-  letter-spacing: 0.02em;
+  font-size: clamp(22px, 1rem + 1vw, 30px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
 }
 .sp-eyebrow {
   margin: 0;
@@ -240,11 +251,11 @@ body {
 }
 .sp-lede {
   margin: 0;
-  font-family: var(--sc-font-display);
+  font-family: var(--sc-font-text);
   font-weight: 500;
-  font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.65rem);
+  font-size: clamp(20px, 1rem + 0.7vw, 26px);
   line-height: 1.3;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
   color: var(--sc-ink);
   text-wrap: pretty;
 }
@@ -253,9 +264,11 @@ body {
 }
 .sp-body {
   margin: 0;
-  max-width: 62ch;
-  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  line-height: 1.62;
+  max-width: 40rem;
+  font-size: clamp(16px, 0.9rem + 0.4vw, 19px);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.55;
   color: var(--sc-ink-soft);
   text-wrap: pretty;
 }
@@ -265,19 +278,20 @@ body {
 }
 .sp-small {
   margin: 0;
-  font: 700 12px/1.4 var(--sc-font-text);
-  letter-spacing: 0.26em;
+  font: 500 13px/1.5 var(--sc-font-text);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--sc-ink-soft);
+  color: var(--muted);
 }
 .sp-small--accent {
   color: var(--sc-accent);
 }
 .sp-quote-lg {
   margin: 0;
-  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.4rem);
+  font-size: clamp(17px, 0.9rem + 0.5vw, 21px);
   line-height: 1.5;
-  font-weight: 500;
+  letter-spacing: 0.01em;
+  font-weight: 400;
   color: var(--sc-ink);
   text-wrap: pretty;
 }
@@ -286,28 +300,35 @@ body {
   font-weight: 500;
 }
 .sp-fine {
-  margin: var(--sc-6) 0 0;
-  font: 500 12.5px/1.5 var(--sc-font-text);
-  color: var(--sc-ink-soft);
+  margin: 36px 0 0;
+  font: 400 13px/1.5 var(--sc-font-text);
+  color: var(--muted);
 }
 
 /* the one action */
 .sp-cta {
   display: inline-flex;
   align-items: center;
-  padding: 15px 30px;
-  background: var(--red);
-  color: #fff;
-  font: 700 14px/1 var(--sc-font-text);
-  letter-spacing: 0.14em;
+  justify-content: center;
+  min-height: 52px;
+  padding: 15px 48px;
+  border: 1px solid var(--sc-ink);
+  background: transparent;
+  color: var(--sc-ink);
+  font: 700 18px/1 var(--sc-font-text);
+  letter-spacing: -0.04em;
   text-transform: uppercase;
   text-decoration: none;
+  white-space: nowrap;
   transition:
-    background-color 160ms var(--sc-ease-out),
+    border-color 300ms ease,
+    color 300ms ease,
     transform 120ms var(--sc-ease-out);
 }
-.sp-cta:hover {
-  background: var(--red-deep);
+.sp-cta:hover,
+.sp-cta:focus-visible {
+  border-color: var(--red);
+  color: var(--red);
 }
 .sp-cta:active {
   transform: translateY(1px);
@@ -389,25 +410,25 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  height: 46px;
-  border-top: 1px solid color-mix(in oklab, var(--sc-ink) 14%, transparent);
+  height: 52px;
+  border-top: 1px solid var(--line);
 }
 .sp-slot:last-child {
-  border-bottom: 1px solid color-mix(in oklab, var(--sc-ink) 14%, transparent);
+  border-bottom: 1px solid var(--line);
 }
 .sp-slot::before {
   content: "";
   flex: none;
   width: 8px;
   height: 8px;
-  background: color-mix(in oklab, var(--sc-ink) 14%, transparent);
+  background: var(--line);
   transition: background-color 200ms var(--sc-ease-out);
 }
 .sp-slot.is-filed::before {
   background: var(--red);
 }
 .sp-slot__text {
-  font: 500 15px/1 var(--sc-font-text);
+  font: 400 16px/1 var(--sc-font-text);
   letter-spacing: 0.01em;
   color: var(--sc-ink);
 }
@@ -423,7 +444,7 @@ body {
   grid-column: 1 / -1;
   position: relative;
   z-index: 1;
-  margin: var(--sc-6) 0 0;
+  margin: clamp(56px, 6vw, 88px) 0 0;
 }
 .sp-ledger__row {
   display: grid;
@@ -432,31 +453,30 @@ body {
 .sp-ledger__k,
 .sp-ledger__v {
   margin: 0;
-  padding: var(--sc-5) var(--sc-gutter);
+  padding: 24px var(--sc-gutter) 28px;
   min-width: 0;
 }
 .sp-ledger__k {
   text-align: right;
-  border-top: 1px solid color-mix(in oklab, var(--ink-light) 14%, transparent);
+  border-top: 1px solid var(--line-strong);
 }
 .sp-ledger__v {
-  border-top: 1px solid color-mix(in oklab, var(--sc-ink) 12%, transparent);
+  border-top: 1px solid var(--line);
 }
 .sp-ledger__k > span {
   display: block;
-  font-family: var(--sc-font-display);
+  font-family: var(--sc-font-text);
   font-weight: 700;
-  text-transform: uppercase;
-  font-size: clamp(1.3rem, 1.1rem + 0.7vw, 1.75rem);
-  line-height: 1.05;
-  letter-spacing: 0.01em;
+  font-size: clamp(20px, 0.9rem + 0.8vw, 24px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
   color: var(--sc-ink);
 }
 .sp-ledger__v > span {
   display: block;
   max-width: 40rem;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.5;
   color: var(--sc-ink-soft);
   text-wrap: pretty;
 }
@@ -474,17 +494,17 @@ body {
 .sp-quote p {
   margin: 0;
   font-family: var(--sc-font-display);
-  font-weight: 300;
-  font-size: clamp(1.8rem, 1.3rem + 1.8vw, 2.8rem);
-  line-height: 1.18;
-  letter-spacing: -0.01em;
+  font-weight: 400;
+  font-size: clamp(26px, 1rem + 1.6vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: var(--sc-ink);
   text-wrap: pretty;
 }
 .sp-quote footer {
   margin-top: var(--sc-3);
-  font: 700 12px/1.4 var(--sc-font-text);
-  letter-spacing: 0.26em;
+  font: 500 13px/1.5 var(--sc-font-text);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--sc-ink-soft);
 }
@@ -509,8 +529,8 @@ body {
 .sp-numbers {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--sc-5) var(--sc-6);
-  margin: var(--sc-5) 0 0;
+  gap: 40px 40px;
+  margin: clamp(40px, 5vw, 64px) 0 0;
 }
 .sp-numbers > div {
   display: flex;
@@ -518,49 +538,57 @@ body {
 }
 .sp-numbers dt {
   margin: 0;
-  font: 500 12px/1.4 var(--sc-font-text);
-  letter-spacing: 0.1em;
+  font: 500 15px/1.5 var(--sc-font-text);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--red);
 }
 .sp-numbers dt small {
   display: block;
-  margin-top: 2px;
-  font: 400 13px/1.45 var(--sc-font-text);
+  margin-top: 4px;
+  font: 400 15px/1.45 var(--sc-font-text);
   letter-spacing: 0;
   text-transform: none;
-  color: var(--sc-ink-soft);
+  color: var(--muted);
 }
 .sp-num {
-  margin: 0 0 6px;
-  font-family: var(--sc-font-display);
-  font-weight: 700;
-  font-size: clamp(2.4rem, 1.8rem + 2vw, 3.6rem);
+  margin: 0 0 14px;
+  font-family: var(--sc-font-text);
+  font-weight: 400;
+  font-size: clamp(44px, 1rem + 3.4vw, 80px);
+  letter-spacing: -0.03em;
   line-height: 1;
   color: var(--sc-ink);
   font-variant-numeric: tabular-nums;
 }
 .sp-num--word {
-  font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.4rem);
+  font-size: clamp(28px, 1rem + 1.6vw, 44px);
+  font-weight: 500;
   padding-top: 0.35em;
 }
 
 /* ----------------------------------------------------------------- reach -- */
 .sp-networks {
   list-style: none;
-  margin: var(--sc-4) 0 0;
+  margin: 22px 0 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sp-side--dark .sp-networks {
+  justify-content: flex-end;
 }
 .sp-networks li {
-  font-family: var(--sc-font-display);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: clamp(1.8rem, 1.3rem + 1.6vw, 2.8rem);
-  line-height: 1;
+  padding: 8px 15px;
+  border: 1px solid var(--line-strong);
+  font: 500 14px/1 var(--sc-font-text);
+  letter-spacing: 0.02em;
   color: var(--sc-ink);
+  transition: border-color 300ms ease;
+}
+.sp-networks li:hover {
+  border-color: var(--sc-ink);
 }
 .sp-tools {
   margin: var(--sc-5) 0 0;
@@ -575,27 +603,26 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px;
-  background: color-mix(in oklab, var(--sc-ink) 12%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--sc-ink) 12%, transparent);
+  background: var(--line);
+  box-shadow: 0 0 0 1px var(--line);
 }
 .sp-commands li {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding: 14px 16px;
+  gap: 6px;
+  padding: 20px;
   background: var(--paper);
 }
 .sp-commands strong {
-  font-family: var(--sc-font-display);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  letter-spacing: 0.03em;
-  line-height: 1.1;
+  font-family: var(--sc-font-text);
+  font-weight: 500;
+  font-size: clamp(18px, 0.9rem + 0.4vw, 20px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 .sp-commands span {
-  font: 400 12.5px/1.4 var(--sc-font-text);
-  color: var(--sc-ink-soft);
+  font: 400 15px/1.45 var(--sc-font-text);
+  color: var(--muted);
 }
 .sp-commands li:first-child {
   grid-column: 1 / -1;
@@ -629,16 +656,15 @@ body {
   gap: 4px;
 }
 .sp-poc__info strong {
-  font-family: var(--sc-font-display);
-  font-weight: 700;
-  font-size: 1.5rem;
+  font-family: var(--sc-font-text);
+  font-weight: 500;
+  font-size: 24px;
   line-height: 1.1;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
 }
 .sp-poc__info span {
-  font: 500 14px/1.4 var(--sc-font-text);
-  color: var(--sc-ink-soft);
+  font: 400 15px/1.45 var(--sc-font-text);
+  color: var(--muted);
 }
 .sp-poc__info a {
   font: 500 15px/1.5 var(--sc-font-text);
@@ -650,12 +676,12 @@ body {
   color: var(--red-deep);
 }
 .sp-close__cta {
-  margin-top: var(--sc-6);
+  margin-top: 36px;
 }
 .sp-event {
-  margin-top: var(--sc-6);
+  margin-top: 36px;
   max-width: 40rem;
-  font: 500 14px/1.55 var(--sc-font-text);
+  font: 400 15px/1.5 var(--sc-font-text);
   color: var(--sc-ink-soft);
 }
 .sp-event strong {
@@ -672,8 +698,8 @@ body {
   right: var(--sc-gutter);
   bottom: var(--sc-5);
   z-index: 1;
-  font: 400 12px/1.5 var(--sc-font-text);
-  color: var(--sc-ink-soft);
+  font: 400 13px/1.5 var(--sc-font-text);
+  color: var(--muted);
 }
 .sp-foot nav {
   display: flex;
@@ -1022,6 +1048,7 @@ body {
   background: var(--ground, var(--night));
   color: var(--sc-accent);
   font-weight: 500;
+  font-size: clamp(40px, 1rem + 3.2vw, 72px);
   letter-spacing: -0.04em;
   line-height: 0.9;
   text-transform: uppercase;
@@ -1058,15 +1085,6 @@ body {
 .sp-poc__photo,
 .sp-slot::before {
   border-radius: 0;
-}
-/* Label + light description pairs, as in the home's service lists. */
-.sp-commands strong,
-.sp-numbers strong,
-.sp-poc__info strong {
-  font-family: var(--sc-font-text);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  text-transform: none;
 }
 @media (max-width: 860px) {
   .sp-plate::before {

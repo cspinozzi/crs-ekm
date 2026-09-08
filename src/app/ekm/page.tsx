@@ -53,8 +53,8 @@ export default function EkmSplitPage() {
                 <p className="sp-eyebrow" data-sc-cue="0 1 0 0">
                   {hero.eyebrow}
                 </p>
-                <h1 id="hero-title" className="sp-display sp-display--xl" data-sc-cue="0 1 0 0" data-sc-kinetic="lines">
-                  {hero.right.h1}
+                <h1 id="hero-title" className="sp-display sp-display--xl" data-sc-cue="0 1 0 0">
+                  {hero.right.h1.lead} <em>{hero.right.h1.accent}</em>
                 </h1>
                 <p className="sp-lede" data-sc-cue="0 1 0 0">
                   {hero.right.tagline}

@@ -21,7 +21,7 @@ export const hero = {
     headline: "Program knowledge, scattered across portals, spreadsheets and inboxes.",
   },
   right: {
-    h1: "Enterprise Knowledge Management for USSOCOM",
+    h1: { lead: "Enterprise Knowledge Management for", accent: "USSOCOM" },
     tagline: "Relevant knowledge, exchanged at the speed of mission.",
   },
   poster: "/scrollcraft/hero-poster.jpg",
