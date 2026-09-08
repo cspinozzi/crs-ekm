@@ -112,7 +112,7 @@ export default function EkmSplitPage() {
             </div>
             <div className="sp-side sp-side--paper">
               <div className="sp-block sp-seam">
-                <h2 id="peak-title" className="sp-display sp-display--lg">
+                <h2 id="peak-title" className="sp-display sp-display--lg sp-plate">
                   {peak.right.heading}
                 </h2>
                 <ol className="sp-shelf" aria-label="Filed into one environment">
@@ -142,7 +142,7 @@ export default function EkmSplitPage() {
           <div className="sp-side sp-side--paper">
             <div className="sp-block sp-seam">
               <div data-sc-in data-sc-stagger="70">
-                <h2 id="rigor-title" className="sp-display sp-display--md">
+                <h2 id="rigor-title" className="sp-display sp-display--md sp-plate">
                   {rigor.right.heading}
                 </h2>
                 <p className="sp-body">{rigor.right.sub}</p>
@@ -188,7 +188,7 @@ export default function EkmSplitPage() {
             </div>
             <div className="sp-side sp-side--paper">
               <div className="sp-block sp-seam">
-                <h2 id="weight-title" className="sp-display sp-display--md">
+                <h2 id="weight-title" className="sp-display sp-display--md sp-plate">
                   {weight.right.heading} <span className="sp-muted">{weight.right.since}</span>
                 </h2>
                 <dl className="sp-numbers">
@@ -239,7 +239,7 @@ export default function EkmSplitPage() {
           <div className="sp-side sp-side--paper">
             <div className="sp-block sp-seam">
               <div data-sc-in data-sc-stagger="60">
-                <h2 id="reach-title" className="sp-display sp-display--md">
+                <h2 id="reach-title" className="sp-display sp-display--md sp-plate">
                   {reach.right.heading}
                 </h2>
                 <p className="sp-body">{reach.right.sub}</p>
@@ -259,13 +259,16 @@ export default function EkmSplitPage() {
         {/* 7 · Resolve: the collapse. Last element on the page. */}
         <section className="sp-act sp-act--close" data-sc-act="pin" data-sc-span="1.3" data-sp-close aria-labelledby="close-title">
           <div className="sp-stage" data-sc-stage>
-            <div className="sp-side sp-side--dark" aria-hidden="true" />
+            <div className="sp-side sp-side--dark sp-close__lead">
+              <div className="sp-block sp-seam">
+                <h2 id="close-title" className="sp-display sp-display--lg" data-sc-cue="0 1 0 0">
+                  {close.heading}
+                </h2>
+              </div>
+            </div>
             <div className="sp-side sp-side--paper sp-close">
               <div className="sp-block sp-block--wide sp-seam">
                 <div>
-                  <h2 id="close-title" className="sp-display sp-display--lg" data-sc-cue="0 1 0 0">
-                    {close.heading}
-                  </h2>
                   <p className="sp-body">{close.paragraph}</p>
                   <div className="sp-poc">
                     <Image className="sp-poc__photo" src={close.person.photo.src} alt={close.person.photo.alt} width={600} height={800} />

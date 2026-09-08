@@ -7,13 +7,15 @@
    ============================================================================ */
 
 :root {
-  --night: #0c0f14;
-  --paper: #fafaf9;
+  --night: #1a1e25; /* left ground, lifted a step so the right side sits deeper */
+  --paper: #0c0f14; /* right ground: the deepest black on the page */
   --red: #c8102e;
   --red-deep: #a50d26;
-  --rose: #e8b4bc;
+  --rose: #f0404c; /* red for dark grounds: brand red lifted so small caps clear 4.5:1 on night */
   --ink-dark: #14171c;
-  --ink-light: #f2f0ec;
+  --ink-light: #faf5ea; /* cream, as on the home */
+  --line: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.4);
 
   /* scrollcraft tokens */
   --sc-canvas: var(--night);
@@ -22,9 +24,9 @@
   --sc-ink-soft: #a9aeb5;
   --sc-accent: var(--rose);
   --sc-accent-ink: var(--night);
-  --sc-font-display: var(--font-barlow-condensed), "Barlow Condensed", "Arial Narrow", sans-serif;
-  --sc-font-text: var(--font-barlow), "Barlow", system-ui, sans-serif;
-  --sc-font-mono: var(--font-barlow), "Barlow", system-ui, sans-serif;
+  --sc-font-display: var(--font-satoshi), "Satoshi", system-ui, sans-serif;
+  --sc-font-text: var(--font-satoshi), "Satoshi", system-ui, sans-serif;
+  --sc-font-mono: var(--font-satoshi), "Satoshi", system-ui, sans-serif;
   --sc-track-tight: 0.005em;
   --sc-track-snug: 0.01em;
   --sc-r-sm: 0;
@@ -48,14 +50,16 @@ body {
 /* Ground scopes. `color` is restated with the token so inherited text re-inks. */
 .sp-side--paper,
 .sp-paper {
-  --sc-ink: var(--ink-dark);
-  --sc-ink-soft: #5a6068;
+  --ground: var(--paper);
+  --sc-ink: var(--ink-light);
+  --sc-ink-soft: #a9aeb5;
   --sc-accent: var(--red);
   --sc-accent-ink: #fff;
   color: var(--sc-ink);
 }
 .sp-side--dark {
   --sc-ink: var(--ink-light);
+  --ground: var(--night);
   --sc-ink-soft: #a9aeb5;
   --sc-accent: var(--rose);
   color: var(--sc-ink);
@@ -107,6 +111,9 @@ body {
   align-items: flex-end;
   text-align: right;
 }
+.sp-close__lead {
+  justify-content: center;
+}
 .sp-side--paper {
   align-items: flex-start;
 }
@@ -146,7 +153,7 @@ body {
   bottom: 0;
   left: -1px;
   width: 2px;
-  background: color-mix(in oklab, var(--ink-dark) 22%, transparent);
+  background: color-mix(in oklab, var(--ink-light) 22%, transparent);
 }
 .sp-divider__fill {
   position: absolute;
@@ -201,9 +208,9 @@ body {
 .sp-display {
   margin: 0;
   font-family: var(--sc-font-display);
-  font-weight: 700;
-  line-height: 0.98;
-  letter-spacing: 0.005em;
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   text-wrap: balance;
   color: var(--sc-ink);
@@ -226,15 +233,15 @@ body {
 }
 .sp-eyebrow {
   margin: 0;
-  font: 700 12px/1.4 var(--sc-font-text);
-  letter-spacing: 0.3em;
+  font: 500 15px/1.5 var(--sc-font-text);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--sc-accent);
 }
 .sp-lede {
   margin: 0;
   font-family: var(--sc-font-display);
-  font-weight: 600;
+  font-weight: 500;
   font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.65rem);
   line-height: 1.3;
   letter-spacing: 0.02em;
@@ -254,7 +261,7 @@ body {
 }
 .sp-body--strong {
   color: var(--sc-ink);
-  font-weight: 600;
+  font-weight: 500;
 }
 .sp-small {
   margin: 0;
@@ -311,6 +318,10 @@ body {
   justify-content: flex-end;
   overflow: hidden;
 }
+/* The operator stays monochrome; colour on this page belongs to the red only. */
+.sp-hero__media :is(.sc-stage__poster, video[data-sc-scrub]) {
+  filter: grayscale(1);
+}
 .sp-hero__media .sc-scrim {
   z-index: 1;
 }
@@ -343,9 +354,9 @@ body {
   margin: 0;
   padding: 10px 14px;
   white-space: nowrap;
-  font: 600 15px/1 var(--sc-font-text);
+  font: 500 15px/1 var(--sc-font-text);
   letter-spacing: 0.01em;
-  color: color-mix(in oklab, var(--ink-dark) calc(var(--fe) * 100%), var(--ink-light));
+  color: var(--ink-light);
   background: color-mix(in oklab, var(--night) calc((1 - var(--fe)) * 72%), transparent);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink-light) calc((1 - var(--fe)) * 30%), transparent);
   transform: rotate(var(--fr));
@@ -379,26 +390,26 @@ body {
   align-items: center;
   gap: 14px;
   height: 46px;
-  border-top: 1px solid color-mix(in oklab, var(--ink-dark) 14%, transparent);
+  border-top: 1px solid color-mix(in oklab, var(--sc-ink) 14%, transparent);
 }
 .sp-slot:last-child {
-  border-bottom: 1px solid color-mix(in oklab, var(--ink-dark) 14%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--sc-ink) 14%, transparent);
 }
 .sp-slot::before {
   content: "";
   flex: none;
   width: 8px;
   height: 8px;
-  background: color-mix(in oklab, var(--ink-dark) 14%, transparent);
+  background: color-mix(in oklab, var(--sc-ink) 14%, transparent);
   transition: background-color 200ms var(--sc-ease-out);
 }
 .sp-slot.is-filed::before {
   background: var(--red);
 }
 .sp-slot__text {
-  font: 600 15px/1 var(--sc-font-text);
+  font: 500 15px/1 var(--sc-font-text);
   letter-spacing: 0.01em;
-  color: var(--ink-dark);
+  color: var(--sc-ink);
 }
 .sp-live .sp-slot:not(.is-filed) .sp-slot__text {
   opacity: 0;
@@ -429,7 +440,7 @@ body {
   border-top: 1px solid color-mix(in oklab, var(--ink-light) 14%, transparent);
 }
 .sp-ledger__v {
-  border-top: 1px solid color-mix(in oklab, var(--ink-dark) 12%, transparent);
+  border-top: 1px solid color-mix(in oklab, var(--sc-ink) 12%, transparent);
 }
 .sp-ledger__k > span {
   display: block;
@@ -463,10 +474,10 @@ body {
 .sp-quote p {
   margin: 0;
   font-family: var(--sc-font-display);
-  font-weight: 600;
-  font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2.1rem);
-  line-height: 1.22;
-  letter-spacing: 0.01em;
+  font-weight: 300;
+  font-size: clamp(1.8rem, 1.3rem + 1.8vw, 2.8rem);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
   color: var(--sc-ink);
   text-wrap: pretty;
 }
@@ -481,14 +492,14 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 14px;
+  gap: 18px;
   margin: var(--sc-6) 0 0;
   padding: 0;
   list-style: none;
 }
 .sp-seals li {
-  width: 40px;
-  height: 40px;
+  width: 64px;
+  height: 64px;
 }
 .sp-seals img {
   width: 100%;
@@ -507,7 +518,7 @@ body {
 }
 .sp-numbers dt {
   margin: 0;
-  font: 600 12px/1.4 var(--sc-font-text);
+  font: 500 12px/1.4 var(--sc-font-text);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--red);
@@ -526,7 +537,7 @@ body {
   font-weight: 700;
   font-size: clamp(2.4rem, 1.8rem + 2vw, 3.6rem);
   line-height: 1;
-  color: var(--ink-dark);
+  color: var(--sc-ink);
   font-variant-numeric: tabular-nums;
 }
 .sp-num--word {
@@ -554,7 +565,7 @@ body {
 .sp-tools {
   margin: var(--sc-5) 0 0;
   max-width: 30rem;
-  font: 600 13px/1.7 var(--sc-font-text);
+  font: 500 13px/1.7 var(--sc-font-text);
   color: var(--sc-ink-soft);
 }
 .sp-commands {
@@ -564,8 +575,8 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px;
-  background: color-mix(in oklab, var(--ink-dark) 12%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--ink-dark) 12%, transparent);
+  background: color-mix(in oklab, var(--sc-ink) 12%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--sc-ink) 12%, transparent);
 }
 .sp-commands li {
   display: flex;
@@ -588,7 +599,7 @@ body {
 }
 .sp-commands li:first-child {
   grid-column: 1 / -1;
-  background: var(--ink-dark);
+  background: var(--night);
   color: var(--ink-light);
 }
 .sp-commands li:first-child span {
@@ -626,11 +637,11 @@ body {
   letter-spacing: 0.02em;
 }
 .sp-poc__info span {
-  font: 600 14px/1.4 var(--sc-font-text);
+  font: 500 14px/1.4 var(--sc-font-text);
   color: var(--sc-ink-soft);
 }
 .sp-poc__info a {
-  font: 600 15px/1.5 var(--sc-font-text);
+  font: 500 15px/1.5 var(--sc-font-text);
   color: var(--red);
   text-decoration: none;
   transition: color 160ms var(--sc-ease-out);
@@ -648,12 +659,12 @@ body {
   color: var(--sc-ink-soft);
 }
 .sp-event strong {
-  color: var(--ink-dark);
-  font-weight: 600;
+  color: var(--sc-ink);
+  font-weight: 500;
 }
 .sp-event a {
   color: var(--red);
-  font-weight: 600;
+  font-weight: 500;
 }
 .sp-foot {
   position: absolute;
@@ -669,10 +680,10 @@ body {
   flex-wrap: wrap;
   gap: 18px;
   margin-bottom: 8px;
-  font-weight: 600;
+  font-weight: 500;
 }
 .sp-foot a {
-  color: var(--ink-dark);
+  color: var(--sc-ink);
   text-decoration: none;
 }
 .sp-foot a:hover {
@@ -995,5 +1006,72 @@ body {
   }
   .sp-mark img {
     width: 18px;
+  }
+}
+
+/* ------------------------------------------------- home-consistent titles -- */
+/* The home's section title: a red uppercase word set on a black plate that
+   sits offset over a 72px grid field. The plate is the heading's own box; the
+   grid is a pseudo-element bleeding past the column gutter and fading right. */
+.sp-plate {
+  position: relative;
+  isolation: isolate;
+  align-self: flex-start;
+  margin-top: 40px;
+  padding: 16px 32px 0 0;
+  background: var(--ground, var(--night));
+  color: var(--sc-accent);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.sp-plate::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -40px;
+  bottom: 0;
+  left: calc(-1 * var(--sc-gutter));
+  right: calc(-1 * var(--sc-gutter) - 40vw);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 72px 72px;
+  background-position: left top;
+  mask-image: linear-gradient(90deg, #000 45%, transparent 100%);
+  pointer-events: none;
+}
+.sp-side--dark .sp-plate {
+  align-self: flex-end;
+  padding: 16px 0 0 32px;
+}
+.sp-side--dark .sp-plate::before {
+  left: calc(-1 * var(--sc-gutter) - 40vw);
+  right: calc(-1 * var(--sc-gutter));
+  background-position: right top;
+  mask-image: linear-gradient(270deg, #000 45%, transparent 100%);
+}
+/* Square rules everywhere the home uses them. */
+.sp-cta,
+.sp-commands li,
+.sp-poc__photo,
+.sp-slot::before {
+  border-radius: 0;
+}
+/* Label + light description pairs, as in the home's service lists. */
+.sp-commands strong,
+.sp-numbers strong,
+.sp-poc__info strong {
+  font-family: var(--sc-font-text);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+@media (max-width: 860px) {
+  .sp-plate::before {
+    right: calc(-1 * var(--sc-gutter));
+    left: calc(-1 * var(--sc-gutter));
+    mask-image: none;
   }
 }

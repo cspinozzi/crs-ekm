@@ -24,7 +24,7 @@ body {
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-barlow), Arial, Helvetica, sans-serif;
+  font-family: var(--font-satoshi), "Satoshi", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
