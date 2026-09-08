@@ -566,6 +566,7 @@ body {
 .sp-numbers > div {
   display: flex;
   flex-direction: column-reverse;
+  justify-content: flex-end; /* column-reverse: this pins the stack to the top */
 }
 .sp-numbers dt {
   margin: 0;
@@ -584,6 +585,9 @@ body {
 }
 .sp-num {
   margin: 0 0 14px;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(44px, 1rem + 3.4vw, 80px);
   font-family: var(--sc-font-text);
   font-weight: 400;
   font-size: clamp(44px, 1rem + 3.4vw, 80px);
@@ -595,7 +599,6 @@ body {
 .sp-num--word {
   font-size: clamp(28px, 1rem + 1.6vw, 44px);
   font-weight: 500;
-  padding-top: 0.35em;
 }
 
 /* ----------------------------------------------------------------- reach -- */
