@@ -3,16 +3,78 @@ import type { CSSProperties } from "react";
 import "./scrollcraft.css";
 import "./split.css";
 import { ScrollCraftMount } from "./scrollcraft-mount";
-import { CTA, SITE, close, hero, peak, reach, rigor, sides, unease, weight } from "@/content/split";
+import {
+  CTA,
+  SITE,
+  capabilities,
+  caseStudies,
+  contact,
+  contracts,
+  events,
+  footer,
+  hero,
+  locations,
+  metrics,
+  mission,
+  partners,
+  peak,
+  sides,
+  stats,
+  testimonials,
+} from "@/content/split";
 
-/** Overlapping cue windows across a pinned act: the first greets, the last closes at 1. */
+/** Overlapping cue windows across a pinned act: the first greets, the last enters and holds. */
 function quoteCue(i: number, n: number) {
-  // One quote per 0.2 of the act, each plateau centred on a sample point (0, .2, .4, .6, .8).
-  // The first greets; the last enters and holds, so the column never goes empty.
-  const c = Math.min(0.8, i * 0.2);
-  if (i === 0) return "0 0.12 0";
-  if (i === n - 1) return (c - 0.12).toFixed(2);
-  return `${(c - 0.12).toFixed(2)} ${(c + 0.12).toFixed(2)} 0.25 0.25`;
+  // Plateaus spread evenly over the first 80% of the act; the last one holds so
+  // the column never goes empty.
+  const step = 0.8 / Math.max(n - 1, 1);
+  const half = step * 0.7;
+  const c = i * step;
+  if (i === 0) return `0 ${half.toFixed(2)} 0`;
+  if (i === n - 1) return (c - half).toFixed(2);
+  return `${(c - half).toFixed(2)} ${(c + half).toFixed(2)} 0.3 0.3`;
+}
+
+function CaseStudy({ study, first }: { study: (typeof caseStudies.items)[number]; first: boolean }) {
+  return (
+    <section className="sp-flow sp-flow--tight" data-sc-act="flow" aria-label={study.title} id={first ? "case-study" : undefined}>
+      <div className="sp-side sp-side--dark">
+        <div className="sp-block sp-seam">
+          <div data-sc-in data-sc-stagger="70">
+            {first && <p className="sp-eyebrow">{caseStudies.kicker}</p>}
+            <p className="sp-small sp-small--accent">{caseStudies.problemLabel}</p>
+            <p className="sp-quote-lg">{study.problem}</p>
+          </div>
+        </div>
+      </div>
+      <div className="sp-side sp-side--paper">
+        <div className="sp-block sp-block--wide sp-seam">
+          <div data-sc-in data-sc-stagger="70">
+            <h2 className="sp-display sp-display--sm">{study.title}</h2>
+            <p className="sp-body">{study.sub}</p>
+            <dl className="sp-numbers sp-numbers--sm">
+              {study.stats.map((s) => (
+                <div key={s.label}>
+                  <dt>{s.label}</dt>
+                  <dd className="sp-num">{s.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="sp-small sp-small--accent">{caseStudies.solutionLabel}</p>
+            <p className="sp-body">{study.solution}</p>
+            <p className="sp-links">
+              <a href={study.pdf} target="_blank" rel="noreferrer">
+                {caseStudies.readLabel}
+              </a>
+              <a href={study.pdf} target="_blank" rel="noreferrer" download>
+                {caseStudies.downloadLabel}
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default function EkmSplitPage() {
@@ -43,9 +105,9 @@ export default function EkmSplitPage() {
               <video data-sc-scrub data-sc-src={hero.clip} data-sc-src-mobile={hero.clipMobile} muted playsInline aria-label="Special operations forces on mission" />
               <div className="sc-scrim sc-scrim--band" aria-hidden="true" />
               <div className="sp-block sp-seam sp-hero__left">
-                <h2 className="sp-display sp-display--md sp-hero__h2" data-sc-cue="0 1 0 0">
-                  {hero.left.headline}
-                </h2>
+                <p className="sp-hero__p" data-sc-cue="0 1 0 0">
+                  {hero.left.paragraph}
+                </p>
               </div>
             </div>
             <div className="sp-side sp-side--paper">
@@ -54,14 +116,17 @@ export default function EkmSplitPage() {
                   {hero.eyebrow}
                 </p>
                 <h1 id="hero-title" className="sp-display sp-display--xl" data-sc-cue="0 1 0 0">
-                  {hero.right.h1.lead} <em>{hero.right.h1.accent}</em>
+                  {hero.right.headline} <em>{hero.right.highlight}</em>
                 </h1>
                 <p className="sp-lede" data-sc-cue="0 1 0 0">
                   {hero.right.tagline}
                 </p>
-                <p data-sc-cue="0 1 0 0">
-                  <a className="sp-cta" href={CTA.href}>
-                    {CTA.label}
+                <p className="sp-actions" data-sc-cue="0 1 0 0">
+                  <a className="sp-cta" href={hero.right.primary.href}>
+                    {hero.right.primary.label}
+                  </a>
+                  <a className="sp-cta sp-cta--ghost" href={hero.right.ghost.href}>
+                    {hero.right.ghost.label}
                   </a>
                 </p>
               </div>
@@ -69,31 +134,42 @@ export default function EkmSplitPage() {
           </div>
         </section>
 
-        {/* 2 · Unease: the Government's words. Still, on purpose. */}
-        <section className="sp-flow sp-flow--tight" data-sc-act="flow" aria-label="Where program knowledge lived, and what the SOF enterprise needs">
+        {/* 2 · The mission. Still, on purpose. */}
+        <section className="sp-flow sp-flow--tight" data-sc-act="flow" aria-labelledby="mission-title">
           <div className="sp-side sp-side--dark">
             <div className="sp-block sp-seam">
-              <div data-sc-in data-sc-stagger="70">
-                <p className="sp-small">{unease.left.label}</p>
-                <p className="sp-quote-lg">{unease.left.body}</p>
-                <p className="sp-small sp-small--accent">{unease.left.verdict}</p>
+              <div className="sp-card" data-sc-in data-sc-stagger="70">
+                <p className="sp-small sp-small--accent">{mission.card.kicker}</p>
+                <p className="sp-quote-lg">{mission.card.body}</p>
               </div>
             </div>
           </div>
           <div className="sp-side sp-side--paper">
             <div className="sp-block sp-seam">
               <div data-sc-in data-sc-stagger="70">
-                <p className="sp-lede">
-                  <strong>{unease.right.strong}</strong>
-                  {unease.right.rest}
+                <h2 id="mission-title" className="sp-display sp-display--md sp-plate">
+                  {mission.kicker}
+                </h2>
+                <p className="sp-display sp-display--md">
+                  {mission.headingLines.map((line, i) => (
+                    <span key={line}>
+                      {i > 0 && <br />}
+                      {line}
+                    </span>
+                  ))}
                 </p>
-                <p className="sp-body sp-body--strong">{unease.right.promise}</p>
+                <p className="sp-lede">
+                  <strong>{mission.p1Strong}</strong>
+                  {mission.p1Rest}
+                </p>
+                <p className="sp-body">{mission.p2}</p>
+                <p className="sp-body sp-body--strong">{mission.p3}</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 3 · Clarity, the peak: the filing. */}
+        {/* 3 · Clarity, the peak: the filing. The first case study's problem, resolved. */}
         <section className="sp-act sp-act--peak" data-sc-act="pin" data-sc-span="3.4" data-sp-peak aria-labelledby="peak-title">
           <div className="sp-stage" data-sc-stage>
             <div className="sp-side sp-side--dark sp-peak__left">
@@ -108,12 +184,15 @@ export default function EkmSplitPage() {
                   );
                 })}
               </ul>
-              <p className="sp-caption sp-seam">{peak.left.caption}</p>
+              <div className="sp-caption sp-seam">
+                <p className="sp-small sp-small--accent">{caseStudies.problemLabel}</p>
+                <p>{peak.study.problem}</p>
+              </div>
             </div>
             <div className="sp-side sp-side--paper">
               <div className="sp-block sp-seam">
-                <h2 id="peak-title" className="sp-display sp-display--lg sp-plate">
-                  {peak.right.heading}
+                <h2 id="peak-title" className="sp-display sp-display--md sp-plate">
+                  {peak.study.title}
                 </h2>
                 <ol className="sp-shelf" aria-label="Filed into one environment">
                   {peak.fragments.map((f, i) => (
@@ -123,19 +202,20 @@ export default function EkmSplitPage() {
                   ))}
                 </ol>
                 <p className="sp-lede sp-peak__result" data-sc-cue="0.7 1 0.2 0.1">
-                  {peak.right.result}
+                  <strong>{peak.study.stats[3].value}</strong> {peak.study.stats[3].label}
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 4 · Rigor: the ledger. */}
-        <section className="sp-flow" data-sc-act="flow" aria-labelledby="rigor-title">
+        {/* 4 · Rigor: the six task areas. */}
+        <section className="sp-flow" data-sc-act="flow" aria-labelledby="rigor-title" id="capabilities">
           <div className="sp-side sp-side--dark">
             <div className="sp-block sp-seam">
-              <div data-sc-in>
-                <h2 className="sp-display sp-display--md">{rigor.left.heading}</h2>
+              <div data-sc-in data-sc-stagger="70">
+                <p className="sp-eyebrow">{capabilities.kicker}</p>
+                <h2 className="sp-display sp-display--md">{capabilities.heading.split(" ONE ")[0]}</h2>
               </div>
             </div>
           </div>
@@ -143,20 +223,23 @@ export default function EkmSplitPage() {
             <div className="sp-block sp-seam">
               <div data-sc-in data-sc-stagger="70">
                 <h2 id="rigor-title" className="sp-display sp-display--md sp-plate">
-                  {rigor.right.heading}
+                  {"ONE " + capabilities.heading.split(" ONE ")[1]}
                 </h2>
-                <p className="sp-body">{rigor.right.sub}</p>
+                <p className="sp-body">{capabilities.sub}</p>
               </div>
             </div>
           </div>
           <dl className="sp-ledger">
-            {rigor.rows.map((row) => (
-              <div className="sp-ledger__row" key={row.title} data-sc-in data-sc-stagger="60">
+            {capabilities.cards.map((card) => (
+              <div className="sp-ledger__row" key={card.n} data-sc-in data-sc-stagger="60">
                 <dt className="sp-ledger__k sp-side--dark">
-                  <span className="sp-seam">{row.title}</span>
+                  <span className="sp-seam">
+                    <small>{card.n}</small>
+                    {card.title}
+                  </span>
                 </dt>
                 <dd className="sp-ledger__v sp-side--paper">
-                  <span className="sp-seam">{row.body}</span>
+                  <span className="sp-seam">{card.body}</span>
                 </dd>
               </div>
             ))}
@@ -164,22 +247,24 @@ export default function EkmSplitPage() {
         </section>
 
         {/* 5 · Weight: their words against the record. */}
-        <section className="sp-act" data-sc-act="pin" data-sc-span="2.4" aria-labelledby="weight-title">
+        <section className="sp-act" data-sc-act="pin" data-sc-span="2.6" aria-labelledby="weight-title" id="metrics">
           <div className="sp-stage" data-sc-stage>
             <div className="sp-side sp-side--dark">
               <div className="sp-block sp-seam">
-                <h2 className="sp-display sp-display--sm">{weight.left.heading}</h2>
+                <h2 className="sp-display sp-display--sm">{testimonials.kicker}</h2>
                 <div className="sp-quotes__stack">
-                  {weight.left.quotes.map((q, i) => (
-                    <blockquote className="sp-quote" key={q.text} data-sc-cue={quoteCue(i, weight.left.quotes.length)}>
+                  {testimonials.quotes.map((q, i) => (
+                    <blockquote className="sp-quote" key={q.text} data-sc-cue={quoteCue(i, testimonials.quotes.length)}>
                       <p>“{q.text}”</p>
                       <footer>{q.by}</footer>
                     </blockquote>
                   ))}
                 </div>
+                <p className="sp-small sp-small--accent sp-partners__k">{partners.kicker}</p>
+                <p className="sp-body sp-partners__p">{partners.paragraph}</p>
                 <div className="sp-seals" role="group" aria-label="Mission partners">
                   {[0, 1, 2].map((row) => {
-                    const seals = weight.left.seals;
+                    const seals = partners.logos;
                     const shift = Math.round((row * seals.length) / 3);
                     const ordered = [...seals.slice(shift), ...seals.slice(0, shift)];
                     return (
@@ -200,63 +285,101 @@ export default function EkmSplitPage() {
             <div className="sp-side sp-side--paper">
               <div className="sp-block sp-seam">
                 <h2 id="weight-title" className="sp-display sp-display--md sp-plate">
-                  {weight.right.heading} <span className="sp-muted">{weight.right.since}</span>
+                  {metrics.heading} <span className="sp-muted">{metrics.since}</span>
                 </h2>
                 <dl className="sp-numbers">
-                  {weight.right.numbers.map((n, i) => (
-                    <div key={n.label}>
+                  {stats.map((s, i) => (
+                    <div key={s.label}>
                       <dt>
-                        {n.label}
-                        <small>{n.sub}</small>
+                        {s.label}
+                        <small>{s.sub}</small>
                       </dt>
-                      <dd className="sp-num">
-                        {n.prefix}
-                        <span data-sc-count={`0 ${n.value}`} data-sc-count-at={`${(0.08 + i * 0.06).toFixed(2)} ${(0.45 + i * 0.05).toFixed(2)}`}>
-                          0
-                        </span>
-                        {n.suffix}
-                      </dd>
+                      {s.figure ? (
+                        <dd className="sp-num">
+                          {s.figure.prefix}
+                          <span data-sc-count={`0 ${s.figure.value}`} data-sc-count-at={`${(0.08 + i * 0.06).toFixed(2)} ${(0.45 + i * 0.05).toFixed(2)}`}>
+                            0
+                          </span>
+                          {s.figure.suffix}
+                        </dd>
+                      ) : (
+                        <dd className="sp-num sp-num--word">{s.value}</dd>
+                      )}
                     </div>
                   ))}
-                  <div>
-                    <dt>
-                      {weight.right.cpars.label}
-                      <small>{weight.right.cpars.sub}</small>
-                    </dt>
-                    <dd className="sp-num sp-num--word">{weight.right.cpars.value}</dd>
-                  </div>
                 </dl>
-                <p className="sp-fine">{weight.right.vehicle}</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 6 · Reach: four networks against thirteen commands. */}
-        <section className="sp-flow" data-sc-act="flow" aria-labelledby="reach-title">
+        {/* 6 · The vehicle. */}
+        <section className="sp-flow sp-flow--tight" data-sc-act="flow" aria-labelledby="contracts-title" id="contracts">
+          <div className="sp-side sp-side--dark">
+            <div className="sp-block sp-seam">
+              <div data-sc-in data-sc-stagger="70">
+                <p className="sp-eyebrow">{contracts.kicker}</p>
+                <h2 id="contracts-title" className="sp-display sp-display--md">
+                  {contracts.heading}
+                </h2>
+              </div>
+            </div>
+          </div>
+          <div className="sp-side sp-side--paper">
+            <div className="sp-block sp-block--wide sp-seam">
+              <div className="sp-card" data-sc-in data-sc-stagger="70">
+                <p className="sp-small sp-small--accent">{contracts.card.kicker}</p>
+                <h3 className="sp-display sp-display--sm">{contracts.card.title}</h3>
+                <p className="sp-body">{contracts.card.body}</p>
+                <dl className="sp-card__rows">
+                  {contracts.card.rows.map((r) => (
+                    <div key={r.label} className={r.strong ? "is-strong" : undefined}>
+                      <dt>{r.label}</dt>
+                      <dd>{r.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 7 · The record, in full: both case studies. */}
+        {caseStudies.items.map((study, i) => (
+          <CaseStudy key={study.title} study={study} first={i === 0} />
+        ))}
+
+        {/* 8 · Reach: the environment against thirteen commands. */}
+        <section className="sp-flow" data-sc-act="flow" aria-labelledby="reach-title" id="locations">
           <div className="sp-side sp-side--dark">
             <div className="sp-block sp-seam">
               <div data-sc-in data-sc-stagger="60">
-                <h2 className="sp-display sp-display--md">{reach.left.heading}</h2>
+                <h2 className="sp-display sp-display--md">{capabilities.panel.title}</h2>
+                <ul className="sp-chips">
+                  {capabilities.panel.chips.map((c) => (
+                    <li key={c}>{c}</li>
+                  ))}
+                </ul>
+                <p className="sp-small sp-small--accent sp-networks__k">{capabilities.panel.networksLabel}</p>
                 <ul className="sp-networks">
-                  {reach.left.networks.map((n) => (
+                  {capabilities.panel.networks.map((n) => (
                     <li key={n}>{n}</li>
                   ))}
                 </ul>
-                <p className="sp-tools">{reach.left.tools.join(" · ")}</p>
               </div>
             </div>
           </div>
           <div className="sp-side sp-side--paper">
             <div className="sp-block sp-seam">
               <div data-sc-in data-sc-stagger="60">
+                <p className="sp-eyebrow">{locations.kicker}</p>
                 <h2 id="reach-title" className="sp-display sp-display--md sp-plate">
-                  {reach.right.heading}
+                  {locations.heading}
                 </h2>
-                <p className="sp-body">{reach.right.sub}</p>
+                <p className="sp-body">{locations.sub}</p>
               </div>
               <ul className="sp-commands" data-sc-reveal="left" data-sc-reveal-at="0.12 0.55">
-                {reach.right.commands.map((c) => (
+                {locations.cells.map((c) => (
                   <li key={c.name}>
                     <strong>{c.name}</strong>
                     <span>{c.place}</span>
@@ -267,53 +390,94 @@ export default function EkmSplitPage() {
           </div>
         </section>
 
-        {/* 7 · Resolve: the collapse. Last element on the page. */}
-        <section className="sp-act sp-act--close" data-sc-act="pin" data-sc-span="1.3" data-sp-close aria-labelledby="close-title">
-          <div className="sp-stage" data-sc-stage>
-            <div className="sp-side sp-side--dark" aria-hidden="true" />
-            <div className="sp-side sp-side--paper sp-close">
-              <div className="sp-block sp-block--wide sp-seam">
-                <div>
-                  <h2 id="close-title" className="sp-display sp-display--lg" data-sc-cue="0 1 0 0">
-                    {close.heading}
-                  </h2>
-                  <p className="sp-body">{close.paragraph}</p>
-                  <div className="sp-poc">
-                    <Image className="sp-poc__photo" src={close.person.photo.src} alt={close.person.photo.alt} width={600} height={800} />
-                    <div className="sp-poc__info">
-                      <strong>{close.person.name}</strong>
-                      <span>{close.person.title}</span>
-                      <a href={close.person.email.href}>{close.person.email.label}</a>
-                      <a href={close.person.phone.href}>{close.person.phone.label}</a>
-                      <a href={close.person.linkedin.href} target="_blank" rel="noreferrer">
-                        Connect on LinkedIn
-                      </a>
-                    </div>
-                  </div>
-                  <p className="sp-close__cta">
-                    <a className="sp-cta" href={CTA.href}>
-                      {CTA.label}
-                    </a>
-                  </p>
-                  <p className="sp-event">
-                    <strong>{close.event.lead}</strong> {close.event.when} <a href={close.event.link.href}>{close.event.link.label}</a>
-                  </p>
-                </div>
+        {/* 9 · Resolve: the seam gives way. Last element on the page. */}
+        <section className="sp-flow sp-close" data-sc-act="flow" data-sp-close aria-labelledby="close-title" id="contact">
+          <div className="sp-side sp-side--dark">
+            <div className="sp-block">
+              <div className="sp-event" data-sc-in data-sc-stagger="70">
+                <p className="sp-small sp-small--accent">{events.eyebrow}</p>
+                <h3 className="sp-display sp-display--sm">{events.title}</h3>
+                <p className="sp-body">{events.summary}</p>
+                <p className="sp-event__when">
+                  {events.detailLines.map((line) => (
+                    <span key={line}>{line}</span>
+                  ))}
+                </p>
+                <p>
+                  <a className="sp-cta sp-cta--sm" href={events.button.href} target="_blank" rel="noreferrer">
+                    {events.button.label}
+                  </a>
+                </p>
               </div>
-              <footer className="sp-foot sp-seam">
-                <nav aria-label="Competitive Range Solutions">
-                  {close.links.map((l) => (
-                    <a key={l.label} href={l.href}>
+            </div>
+          </div>
+          <div className="sp-side sp-side--paper">
+            <div className="sp-block sp-block--wide">
+              <div data-sc-in data-sc-stagger="70">
+                <h2 id="close-title" className="sp-display sp-display--lg">
+                  {contact.heading}
+                </h2>
+                <p className="sp-body">{contact.paragraph}</p>
+                <p className="sp-small sp-small--accent sp-poc__k">{contact.kicker}</p>
+                <div className="sp-poc">
+                  <Image className="sp-poc__photo" src={contact.person.photo.src} alt={contact.person.photo.alt} width={600} height={800} />
+                  <div className="sp-poc__info">
+                    <strong>{contact.person.name}</strong>
+                    <span>{contact.person.title}</span>
+                    <a href={contact.person.email.href}>{contact.person.email.label}</a>
+                    <a href={contact.person.phone.href}>{contact.person.phone.label}</a>
+                    <a href={contact.person.linkedin.href} target="_blank" rel="noreferrer">
+                      {contact.person.linkedin.label}
+                    </a>
+                  </div>
+                </div>
+                <dl className="sp-facts">
+                  <div>
+                    <dt>{contact.hq.label}</dt>
+                    {contact.hq.lines.map((l) => (
+                      <dd key={l}>{l}</dd>
+                    ))}
+                  </div>
+                  <div>
+                    <dt>{contact.setAside.label}</dt>
+                    {contact.setAside.lines.map((l) => (
+                      <dd key={l}>{l}</dd>
+                    ))}
+                  </div>
+                  <div>
+                    <dt>{contact.connect.label}</dt>
+                    <dd>
+                      <a href={contact.connect.link.href} target="_blank" rel="noreferrer">
+                        {contact.connect.link.label}
+                      </a>
+                    </dd>
+                  </div>
+                </dl>
+                <p className="sp-close__cta">
+                  <a className="sp-cta" href={CTA.href}>
+                    {CTA.label}
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <footer className="sp-foot">
+            <p className="sp-foot__tagline">{footer.tagline}</p>
+            <div className="sp-foot__cols">
+              {footer.columns.map((col) => (
+                <nav key={col.label} aria-label={col.label}>
+                  <p className="sp-small">{col.label}</p>
+                  {col.links.map((l) => (
+                    <a key={l.label} href={l.href} {...("external" in l && l.external ? { target: "_blank", rel: "noreferrer" } : {})}>
                       {l.label}
                     </a>
                   ))}
                 </nav>
-                {close.fine.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-              </footer>
+              ))}
             </div>
-          </div>
+            <p>{footer.copyright}</p>
+            <p>{footer.registry}</p>
+          </footer>
         </section>
       </main>
     </>

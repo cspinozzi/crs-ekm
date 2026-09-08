@@ -599,7 +599,8 @@ body {
 }
 
 /* ----------------------------------------------------------------- reach -- */
-.sp-networks {
+.sp-networks,
+.sp-chips {
   list-style: none;
   margin: 22px 0 0;
   padding: 0;
@@ -607,10 +608,12 @@ body {
   flex-wrap: wrap;
   gap: 8px;
 }
-.sp-side--dark .sp-networks {
+.sp-side--dark .sp-networks,
+.sp-side--dark .sp-chips {
   justify-content: flex-end;
 }
-.sp-networks li {
+.sp-networks li,
+.sp-chips li {
   padding: 8px 15px;
   border: 1px solid var(--line-strong);
   font: 500 14px/1 var(--sc-font-text);
@@ -618,7 +621,8 @@ body {
   color: var(--sc-ink);
   transition: border-color 300ms ease;
 }
-.sp-networks li:hover {
+.sp-networks li:hover,
+.sp-chips li:hover {
   border-color: var(--sc-ink);
 }
 .sp-tools {
@@ -1142,5 +1146,223 @@ body {
     right: calc(-1 * var(--sc-gutter));
     left: calc(-1 * var(--sc-gutter));
     mask-image: none;
+  }
+}
+
+/* ------------------------------------------------ the original copy, in full -- */
+/* Two actions, as on the live page. */
+.sp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 36px;
+}
+.sp-side--dark .sp-actions {
+  justify-content: flex-end;
+}
+.sp-cta--ghost {
+  border-color: var(--line-strong);
+  color: rgba(250, 245, 234, 0.82);
+}
+.sp-cta--sm {
+  min-height: 40px;
+  padding: 10px 24px;
+  font-size: 15px;
+}
+/* The hero paragraph, over the clip. */
+.sp-hero__p {
+  margin: 0;
+  max-width: 30rem;
+  font-size: clamp(16px, 0.9rem + 0.4vw, 19px);
+  line-height: 1.55;
+  color: rgba(250, 245, 234, 0.92);
+  text-wrap: pretty;
+}
+/* Cards: sector leadership, the vehicle. The home's panel. */
+.sp-card {
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: var(--sc-surface);
+}
+.sp-card > * + * {
+  margin-top: 16px;
+}
+.sp-card__rows {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.sp-card__rows dt {
+  margin: 0;
+  font: 500 13px/1.5 var(--sc-font-text);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.sp-card__rows dd {
+  margin: 4px 0 0;
+  font: 400 16px/1.4 var(--sc-font-text);
+  color: var(--sc-ink);
+}
+.sp-card__rows .is-strong dd {
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+/* Case-study figures: the same grid, a size down, labels in grey. */
+.sp-numbers--sm {
+  gap: 28px 32px;
+  margin-top: 28px;
+}
+.sp-numbers--sm .sp-num {
+  min-height: 0;
+  margin-bottom: 8px;
+  font-size: clamp(30px, 1rem + 1.6vw, 44px);
+  font-weight: 500;
+}
+.sp-numbers--sm dt {
+  font: 400 15px/1.45 var(--sc-font-text);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--muted);
+}
+.sp-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-top: 28px;
+  font: 500 15px/1.5 var(--sc-font-text);
+}
+.sp-links a {
+  color: var(--red);
+  text-decoration: none;
+  transition: color 300ms ease;
+}
+.sp-links a:hover {
+  color: var(--sc-ink);
+}
+/* The peak's caption is now the first case study's problem, in full. */
+.sp-caption {
+  max-width: 30rem;
+  font: 400 15px/1.5 var(--sc-font-text);
+  color: var(--soft);
+}
+.sp-caption p {
+  margin: 0;
+}
+.sp-caption > * + * {
+  margin-top: 10px;
+}
+/* Numbered task areas. */
+.sp-ledger__k > span > small {
+  display: block;
+  margin-bottom: 8px;
+  font: 500 15px/1 var(--sc-font-text);
+  letter-spacing: 0.02em;
+  color: var(--red);
+}
+/* Partners, under the testimonials. */
+.sp-partners__k {
+  margin-top: 36px;
+}
+.sp-partners__p {
+  max-width: 32rem;
+  font-size: 15px;
+}
+.sp-networks__k {
+  margin-top: 28px;
+}
+/* Contact facts: headquarters, set-aside, connect. */
+.sp-poc__k {
+  margin-top: 36px;
+}
+.sp-poc__k + .sp-poc {
+  margin-top: 18px;
+}
+.sp-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 36px 0 0;
+}
+.sp-facts dt {
+  margin: 0 0 6px;
+  font: 500 13px/1.5 var(--sc-font-text);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.sp-facts dd {
+  margin: 0;
+  font: 400 15px/1.5 var(--sc-font-text);
+  color: var(--sc-ink);
+}
+.sp-facts a {
+  color: var(--red);
+  text-decoration: none;
+}
+/* The event, on the dark side of the close. */
+.sp-event {
+  margin: 0;
+  max-width: none;
+  font: inherit;
+  color: inherit;
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: var(--sc-surface);
+}
+.sp-event > * + * {
+  margin-top: 16px;
+}
+.sp-event__when {
+  margin: 0;
+  display: grid;
+  gap: 2px;
+  font: 500 15px/1.5 var(--sc-font-text);
+  color: var(--sc-ink);
+}
+/* The close is a flow act now: the seam still gives way, the content stays. */
+.sp-close {
+  padding-bottom: clamp(48px, 6vw, 80px);
+}
+.sp-foot {
+  position: static;
+  grid-column: 1 / -1;
+  z-index: 1;
+  margin-top: clamp(56px, 6vw, 88px);
+  padding: 32px var(--sc-gutter) 0;
+  border-top: 1px solid var(--line);
+  font: 400 13px/1.5 var(--sc-font-text);
+  color: var(--muted);
+}
+.sp-foot__tagline {
+  margin: 0 0 28px;
+  font: 500 16px/1.4 var(--sc-font-text);
+  color: var(--sc-ink);
+}
+.sp-foot__cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.sp-foot nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  font: 400 15px/1.4 var(--sc-font-text);
+}
+.sp-foot nav .sp-small {
+  margin-bottom: 4px;
+}
+@media (max-width: 860px) {
+  .sp-facts,
+  .sp-foot__cols,
+  .sp-card__rows {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
