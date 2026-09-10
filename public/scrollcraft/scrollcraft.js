@@ -28,6 +28,8 @@
                    on the two slides and the settle lands inside the pin where
                    the copy is. data-sc-runout is accepted and ignored; it named
                    the old opt-in for the exit half of this.
+     data-sc-flow-at  optional maximum viewport width (px) for normal reading
+                     flow, with settled cues/counters instead of a pin.
      data-sc-span  viewport-heights of scroll this act owns. Pinned devices only
                    (scrub/pin/pan). Default 1.5. The engine sets the outer
                    height and sticks the first .sc-stage / [data-sc-stage] child.
@@ -321,6 +323,9 @@
         el: el,
         device: device,
         pinned: pinned,
+        canPin: pinned,
+        flowAt: parseFloat(el.getAttribute('data-sc-flow-at')) || 0,
+        compact: false,
         span: parseFloat(el.getAttribute('data-sc-span')) || (pinned ? 1.5 : 0),
         dwell: parseFloat(el.getAttribute('data-sc-dwell')) || 0,
         clipTravel: pinned && el.getAttribute('data-sc-clip-map') === 'travel',
@@ -510,7 +515,13 @@
     function layout() {
       vh = innerHeight; vw = innerWidth;
       acts.forEach(function (a) {
+        // Opt-in reading layout: release the pin and settle its cues/counters
+        // together. Re-evaluate on resize so orientation changes need no reload.
+        a.compact = a.flowAt > 0 && vw <= a.flowAt;
+        a.pinned = a.canPin && !a.compact;
+        a.el.classList.toggle('sc-act--pinned', a.pinned);
         if (a.pinned) a.el.style.height = (a.span * 100) + 'vh';
+        else if (a.canPin) a.el.style.removeProperty('height');
       });
       // The spacer is the whole document flow of a worldflight. Its height is
       // the sum of the leg weights plus one viewport: without that extra screen
@@ -853,7 +864,9 @@
         for (var c = 0; c < a.cues.length; c++) {
           var q = a.cues[c];
           var vis;
-          if (q.to === null) {
+          if (a.compact) {
+            vis = 1;
+          } else if (q.to === null) {
             vis = smooth((a.p - q.from) / 0.18);
           } else {
             var win = Math.max(q.to - q.from, 0.001);
@@ -913,7 +926,13 @@
         // counters
         for (var ct = 0; ct < a.counts.length; ct++) {
           var K = a.counts[ct];
-          var kt = smooth((a.p - K.from) / Math.max(K.to - K.from, 0.001));
+          // The mobile page counts each figure once as its own row enters.
+          // Clear the cache so desktop can reclaim it immediately on resize.
+          if (a.compact && vw <= 699 && K.el.hasAttribute('data-sp-mobile-count')) {
+            K.last = null;
+            continue;
+          }
+          var kt = a.compact ? 1 : smooth((a.p - K.from) / Math.max(K.to - K.from, 0.001));
           var val = lerp(K.a, K.b, kt);
           var out = formatNum(val, K.tpl);
           if (out !== K.last) { K.el.textContent = out; K.last = out; }

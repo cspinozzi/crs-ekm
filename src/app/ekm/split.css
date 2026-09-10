@@ -2,8 +2,8 @@
    crs-ekm-split · the split stage
    Two grounds held for the whole page: night on the left (scattered), paper on
    the right (governed). The seam is the chrome. scrollcraft.css is the floor;
-   this file themes it and lays out our own markup. Nothing here restyles the
-   engine's [data-sc-*] mechanism.
+   this file themes it and lays out our own markup. Below 1200px the page opts
+   into flow acts, with settled cues and content-sized stages.
    ============================================================================ */
 
 :root {
@@ -764,332 +764,6 @@ body {
   }
 }
 
-/* ---------------------------------------------------------------- stacked -- */
-@media (max-width: 860px) {
-  .sp-commands {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .sp-stage {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-  }
-  .sp-stage::before {
-    width: 100%;
-    height: var(--split);
-    bottom: auto;
-  }
-  .sp-flow {
-    grid-template-columns: 1fr;
-    padding-block: 0;
-  }
-  .sp-flow::before {
-    display: none;
-  }
-  .sp-flow .sp-side--dark {
-    background: var(--night);
-  }
-  .sp-flow .sp-side {
-    padding-block: var(--sc-7);
-  }
-  .sp-side {
-    padding: var(--sc-5);
-  }
-  .sp-side--dark {
-    align-items: flex-start;
-    text-align: left;
-  }
-  .sp-seam {
-    transform: none;
-  }
-  .sp-stage .sp-seam {
-    transform: translateY(calc(var(--split-px) - 50svh));
-  }
-  .sp-hero__h2 {
-    max-width: none;
-  }
-  .sp-display--xl {
-    font-size: clamp(2rem, 1.4rem + 3vw, 2.6rem);
-  }
-  .sp-display--lg {
-    font-size: clamp(1.8rem, 1.3rem + 2vw, 2.4rem);
-  }
-
-  .sp-ledger__row {
-    grid-template-columns: 1fr;
-  }
-  .sp-ledger__k {
-    text-align: left;
-    background: var(--night);
-    padding: var(--sc-4) var(--sc-5) var(--sc-3);
-    border-top: 0;
-  }
-  .sp-ledger__v {
-    padding: var(--sc-3) var(--sc-5) var(--sc-5);
-    border-top: 0;
-  }
-
-  .sp-divider {
-    top: auto;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: auto;
-    height: 40px;
-    background: color-mix(in oklab, var(--night) 92%, transparent);
-    backdrop-filter: blur(8px);
-  }
-  .sp-divider__line {
-    display: none;
-  }
-  .sp-divider__fill {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    transform-origin: 0 50%;
-    transform: scaleX(var(--sp-progress));
-  }
-  .sp-divider__label {
-    writing-mode: horizontal-tb;
-  }
-  .sp-divider__label--left {
-    right: auto;
-    left: 16px;
-    transform: translateY(-50%);
-  }
-  .sp-divider__label--right {
-    left: auto;
-    right: 16px;
-    color: var(--ink-light);
-  }
-  .sp-mark {
-    top: 12px;
-    left: 12px;
-    margin-left: 0;
-  }
-
-  .sp-slot {
-    height: 40px;
-  }
-  .sp-shelf {
-    margin-top: var(--sc-3);
-  }
-  .sp-peak__result {
-    margin-top: var(--sc-3);
-  }
-  .sp-quotes__stack {
-    min-height: 8rem;
-    margin-top: var(--sc-3);
-  }
-  .sp-seals {
-    gap: 6px;
-    margin-top: var(--sc-4);
-  }
-  .sp-seals__track {
-    gap: 6px;
-  }
-  .sp-seal {
-    width: 72px;
-    height: 56px;
-  }
-  .sp-seal img {
-    width: 34px;
-    height: 34px;
-  }
-  @keyframes sp-ticker {
-    to {
-      transform: translateX(calc(-50% - 3px));
-    }
-  }
-  .sp-numbers {
-    gap: var(--sc-3) var(--sc-4);
-    margin-top: var(--sc-3);
-  }
-  .sp-num {
-    font-size: 1.8rem;
-  }
-  .sp-num--word {
-    font-size: 1.3rem;
-  }
-  .sp-fine {
-    margin-top: var(--sc-4);
-  }
-  .sp-poc {
-    margin-top: var(--sc-4);
-  }
-  .sp-poc__photo {
-    width: 96px;
-    height: 128px;
-  }
-  .sp-close {
-    padding-bottom: 4rem;
-  }
-  .sp-foot {
-    position: static;
-    margin-top: var(--sc-6);
-  }
-  main {
-    padding-bottom: 40px;
-  }
-}
-
-/* -------------------------------------------------- stacked: fit each half -- */
-@media (max-width: 860px) {
-  .sp-stage .sp-side {
-    justify-content: flex-start;
-    padding: var(--sc-5) var(--sc-5) var(--sc-4);
-  }
-  .sp-stage .sp-hero__media,
-  .sp-stage .sp-peak__left {
-    justify-content: flex-end;
-  }
-  .sp-block > * + *,
-  .sp-block > [data-sc-in] > * + * {
-    margin-top: var(--sc-3);
-  }
-  .sp-display--md {
-    font-size: 1.5rem;
-  }
-  .sp-display--sm {
-    font-size: 1.15rem;
-  }
-  .sp-peak__left .sp-caption {
-    max-width: 60%;
-  }
-  .sp-act--peak .sp-display--lg {
-    font-size: 1.5rem;
-    line-height: 1;
-  }
-  .sp-shelf {
-    margin-top: var(--sc-2);
-  }
-  .sp-slot {
-    height: 33px;
-    gap: 10px;
-  }
-  .sp-slot__text,
-  .sp-frag {
-    font-size: 13px;
-  }
-  .sp-frag {
-    padding: 8px 11px;
-  }
-  .sp-peak__result {
-    margin-top: var(--sc-2);
-    font-size: 1.05rem;
-  }
-  .sp-quotes__stack {
-    min-height: 5.5rem;
-    margin-top: var(--sc-3);
-  }
-  .sp-quote p {
-    font-size: 1.15rem;
-    line-height: 1.2;
-  }
-  .sp-quote footer {
-    margin-top: 6px;
-    font-size: 10px;
-  }
-  .sp-seals {
-    margin-top: var(--sc-3);
-  }
-  .sp-seal {
-    width: 56px;
-    height: 44px;
-  }
-  .sp-seal img {
-    width: 26px;
-    height: 26px;
-  }
-  .sp-numbers {
-    margin-top: var(--sc-2);
-    gap: 10px 14px;
-  }
-  .sp-numbers dt {
-    font-size: 10.5px;
-  }
-  .sp-numbers dt small,
-  .sp-fine {
-    display: none;
-  }
-  .sp-num {
-    font-size: 1.55rem;
-    margin-bottom: 2px;
-  }
-  .sp-num--word {
-    font-size: 1.15rem;
-    padding-top: 0.3em;
-  }
-  .sp-close .sp-display--lg {
-    font-size: 1.6rem;
-  }
-  .sp-close .sp-body {
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-  .sp-poc {
-    margin-top: var(--sc-3);
-    gap: 14px;
-  }
-  .sp-poc__info strong {
-    font-size: 1.2rem;
-  }
-  .sp-poc__info a,
-  .sp-poc__info span {
-    font-size: 13px;
-  }
-  .sp-close__cta {
-    margin-top: var(--sc-3);
-  }
-  .sp-event {
-    margin-top: var(--sc-3);
-    font-size: 12.5px;
-  }
-  .sp-foot {
-    margin-top: var(--sc-4);
-    font-size: 10.5px;
-  }
-  .sp-foot nav {
-    gap: 12px;
-    margin-bottom: 6px;
-  }
-  .sp-close {
-    padding-bottom: 56px;
-  }
-}
-
-/* --------------------------------------------- stacked: rows and chrome -- */
-@media (max-width: 860px) {
-  /* 1fr rows grow to their content; pin them so the two halves stay halves. */
-  .sp-stage {
-    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
-  }
-  .sp-side {
-    min-height: 0;
-  }
-  /* Top-anchored dark blocks stay put; only seam-hugging blocks travel. */
-  .sp-stage .sp-side--dark .sp-seam {
-    transform: none;
-  }
-  .sp-stage .sp-hero__left,
-  .sp-stage .sp-peak__left .sp-caption {
-    transform: translateY(calc(var(--split-px) - 50svh));
-  }
-  /* The mark lives in the bar, between the two labels. */
-  .sp-mark {
-    top: auto;
-    bottom: 0;
-    left: 50%;
-    margin-left: -22px;
-    height: 40px;
-    background: transparent;
-    box-shadow: none;
-  }
-  .sp-mark img {
-    width: 18px;
-  }
-}
-
 /* ------------------------------------------------- home-consistent titles -- */
 /* The home's section title: a red uppercase word set on a black plate that
    sits offset over a 72px grid field. The plate is the heading's own box; the
@@ -1141,13 +815,7 @@ body {
 .sp-slot::before {
   border-radius: 0;
 }
-@media (max-width: 860px) {
-  .sp-plate::before {
-    right: calc(-1 * var(--sc-gutter));
-    left: calc(-1 * var(--sc-gutter));
-    mask-image: none;
-  }
-}
+
 
 /* ------------------------------------------------ the original copy, in full -- */
 /* Two actions, as on the live page. */
@@ -1359,10 +1027,732 @@ body {
 .sp-foot nav .sp-small {
   margin-bottom: 4px;
 }
-@media (max-width: 860px) {
-  .sp-facts,
-  .sp-foot__cols,
-  .sp-card__rows {
+
+/* ------------------------------------------------ tablet / reading layout -- */
+/* Keep this breakpoint aligned with data-sc-flow-at and startSplit(). The
+   engine releases its pins; CSS lets every block take the height it needs. */
+@media (max-width: 1199px) {
+  :root {
+    --sc-gutter: clamp(24px, 3.2vw, 38px);
+    --sp-bar-height: calc(52px + env(safe-area-inset-bottom, 0px));
+  }
+
+  html {
+    scroll-padding-block: 24px calc(var(--sp-bar-height) + 24px);
+  }
+  .sp {
+    padding-bottom: var(--sp-bar-height);
+    overflow-x: clip;
+  }
+  .sp-stage {
+    position: relative;
+    height: auto;
+    overflow: visible;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+  }
+  .sp-stage::before,
+  .sp-flow::before {
+    display: none;
+  }
+  .sp-flow,
+  .sp-flow--tight {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-block: 0;
+  }
+  .sp-side {
+    min-height: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 64px var(--sc-gutter);
+  }
+  .sp-side--dark {
+    background: var(--night);
+    text-align: left;
+  }
+  .sp-side--paper {
+    background: var(--paper);
+  }
+  .sp-block,
+  .sp-block--wide {
+    max-width: none;
+    min-width: 0;
+  }
+  .sp-seam {
+    transform: none;
+    will-change: auto;
+  }
+  .sp-block > * + *,
+  .sp-block > [data-sc-in] > * + * {
+    margin-top: 24px;
+  }
+  .sp [data-sc-cue] {
+    /* Cues can be parked inline by the engine while off screen. Flow content
+       stays visible and keyboard-accessible at every scroll position. */
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    will-change: auto;
+  }
+  .sp [data-sc-reveal] {
+    clip-path: none !important;
+    will-change: auto;
+  }
+  .sp-display--xl {
+    font-size: clamp(34px, 4.2vw, 48px);
+    line-height: 1.07;
+  }
+  .sp-display--lg {
+    font-size: clamp(32px, 3.4vw, 42px);
+    line-height: 1.04;
+  }
+  .sp-display--md {
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1.05;
+  }
+  .sp-display--sm {
+    font-size: clamp(24px, 2.6vw, 30px);
+    line-height: 1.12;
+  }
+  .sp-display {
+    overflow-wrap: anywhere;
+  }
+  .sp-plate {
+    margin-top: 24px;
+    padding: 16px 0 0;
+    font-size: clamp(32px, 3.5vw, 42px);
+    line-height: 1.04;
+  }
+  .sp-plate::before {
+    top: -24px;
+    left: calc(-1 * var(--sc-gutter));
+    right: calc(-1 * var(--sc-gutter));
+    background-size: 48px 48px;
+  }
+  .sp-eyebrow {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .sp-lede {
+    font-size: 21px;
+    line-height: 1.4;
+  }
+  .sp-body,
+  .sp-hero__p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .sp-cta {
+    min-height: 48px;
+    padding: 14px 22px;
+    font-size: 16px;
+    line-height: 1.25;
+    white-space: normal;
+    text-align: center;
+    max-width: 100%;
+  }
+  .sp a:focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: 5px;
+  }
+  .sp-actions {
+    gap: 12px;
+  }
+  .sp-hero__media {
+    justify-content: flex-end;
+    min-height: 560px;
+  }
+  .sp-hero .sp-side--paper {
+    justify-content: center;
+  }
+  .sp-hero__media .sc-scrim {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.65) 48%, transparent 100%);
+  }
+
+  /* The filing resolves into a readable list instead of crossing columns. */
+  .sp-peak__left {
+    justify-content: center;
+    gap: 32px;
+  }
+  .sp-frags {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 8px;
+  }
+  .sp-live .sp-frag,
+  .sp-live .sp-frag.is-filed,
+  .sp-frag {
+    position: static;
+    visibility: visible;
+    transform: none !important;
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.2;
+    background: var(--night);
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    will-change: auto;
+  }
+  .sp-frag:nth-child(3n + 1) {
+    transform: rotate(-3deg) !important;
+  }
+  .sp-frag:nth-child(3n + 2) {
+    transform: rotate(2deg) !important;
+  }
+  .sp-caption {
+    max-width: none;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .sp-shelf {
+    max-width: none;
+  }
+  .sp-slot {
+    min-height: 48px;
+    height: auto;
+    padding-block: 12px;
+  }
+  .sp-slot::before {
+    background: var(--red);
+  }
+  .sp-live .sp-slot:not(.is-filed) .sp-slot__text {
+    opacity: 1;
+  }
+  .sp-slot__text {
+    line-height: 1.35;
+  }
+
+  .sp-ledger {
+    margin-top: 0;
+  }
+  .sp-ledger__row {
+    grid-template-columns: 38% 62%;
+  }
+  .sp-ledger__k,
+  .sp-ledger__v {
+    padding: 28px var(--sc-gutter);
+    border-top: 1px solid var(--line);
+    text-align: left;
+  }
+  .sp-ledger__k > span {
+    font-size: 21px;
+    line-height: 1.25;
+  }
+  .sp-quotes__stack {
+    min-height: 0;
+    gap: 28px;
+    margin-top: 28px;
+  }
+  .sp-quote {
+    grid-area: auto;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .sp-quote p {
+    font-size: 24px;
+    line-height: 1.35;
+  }
+  .sp-quote footer {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 16px;
+  }
+  .sp-seals {
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .sp-seal {
+    width: 88px;
+    height: 76px;
+  }
+  .sp-seal img {
+    width: 52px;
+    height: 52px;
+  }
+  .sp-numbers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 20px;
+    margin-top: 32px;
+  }
+  .sp-numbers > div {
+    min-width: 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .sp-numbers > div:has(.sp-num--word) {
+    grid-column: 1 / -1;
+  }
+  .sp-num {
+    min-height: 0;
+    margin-bottom: 12px;
+    font-size: clamp(36px, 4vw, 48px);
+  }
+  .sp-num--word {
+    font-size: 32px;
+  }
+  .sp-numbers dt {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .sp-numbers dt small {
+    display: block;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .sp-numbers--sm .sp-num {
+    font-size: 34px;
+  }
+  .sp-numbers--sm dt {
+    font-size: 14px;
+  }
+  .sp-card,
+  .sp-event {
+    padding: 24px;
+  }
+  .sp-card__rows {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .sp-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .sp-side--dark .sp-chips,
+  .sp-side--dark .sp-networks,
+  .sp-side--dark .sp-actions {
+    justify-content: flex-start;
+  }
+  .sp-chips li,
+  .sp-networks li {
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+  }
+  .sp-commands {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sp-commands li {
+    padding: 18px 14px;
+    overflow-wrap: anywhere;
+  }
+  .sp-commands strong {
+    font-size: 18px;
+  }
+  .sp-poc {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .sp-poc__photo {
+    flex: none;
+    width: 108px;
+    height: 144px;
+  }
+  .sp-poc__info {
+    min-width: 0;
+    flex: 1 1 160px;
+    overflow-wrap: anywhere;
+  }
+  .sp-poc__info strong {
+    font-size: 22px;
+  }
+  .sp-poc__info a,
+  .sp-facts a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    width: fit-content;
+  }
+  .sp-facts {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .sp-foot {
+    margin-top: 0;
+    padding: 40px var(--sc-gutter);
+  }
+  .sp-foot nav {
+    gap: 0;
+  }
+  .sp-foot nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 8px;
+    overflow-wrap: anywhere;
+  }
+
+  /* A thumb-sized home target and safe-area clearance for the progress bar. */
+  .sp-divider {
+    inset: auto 0 0;
+    width: auto;
+    height: var(--sp-bar-height);
+    background: rgba(23, 23, 23, 0.96);
+    backdrop-filter: blur(12px);
+  }
+  .sp-divider__line {
+    display: none;
+  }
+  .sp-divider__fill {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    transform-origin: 0 50%;
+    transform: scaleX(var(--sp-progress));
+  }
+  .sp-divider__label {
+    top: 26px;
+    writing-mode: horizontal-tb;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+  }
+  .sp-divider__label--left {
+    right: auto;
+    left: var(--sc-gutter);
+    transform: translateY(-50%);
+    opacity: 1;
+  }
+  .sp-divider__label--right {
+    left: auto;
+    right: var(--sc-gutter);
+    color: var(--ink-light);
+  }
+  .sp-mark {
+    top: auto;
+    bottom: env(safe-area-inset-bottom, 0px);
+    left: 50%;
+    margin-left: -26px;
+    width: 52px;
+    height: 52px;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+/* ---------------------------------------------------------------- mobile -- */
+@media (max-width: 699px) {
+  :root {
+    --sc-gutter: clamp(24px, 7.2vw, 36px);
+  }
+  .sp-stage,
+  .sp-flow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sp-side {
+    padding-block: 72px;
+  }
+  .sp-hero .sp-side--paper {
+    grid-row: 1;
+    padding-block: 64px;
+  }
+  .sp-hero__media {
+    min-height: 460px;
+  }
+  .sp-display--xl {
+    font-size: clamp(30px, 7.8vw, 40px);
+    line-height: 1.16;
+  }
+  .sp-display--md {
+    font-size: clamp(27px, 6.8vw, 34px);
+    line-height: 1.2;
+  }
+  .sp-plate {
+    font-size: clamp(28px, 7.2vw, 36px);
+    line-height: 1.18;
+    padding-top: 24px;
+  }
+  .sp-display--lg,
+  .sp-display--sm {
+    line-height: 1.2;
+  }
+  .sp-block > * + *,
+  .sp-block > [data-sc-in] > * + * {
+    margin-top: 32px;
+  }
+  .sp-lede {
+    font-size: 19px;
+    line-height: 1.6;
+  }
+  .sp-body,
+  .sp-hero__p,
+  .sp-caption,
+  .sp-quote-lg {
+    line-height: 1.75;
+  }
+  .sp-eyebrow {
+    font-size: 12px;
+    line-height: 1.7;
+    letter-spacing: 0.04em;
+  }
+  .sp-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .sp-block > .sp-actions {
+    margin-top: 40px;
+  }
+  .sp-cta {
+    min-height: 54px;
+  }
+  .sp-actions .sp-cta,
+  .sp-close__cta .sp-cta {
+    width: 100%;
+  }
+  .sp-peak__left {
+    gap: 48px;
+  }
+  .sp-frags {
+    gap: 18px 12px;
+  }
+  .sp-slot {
+    min-height: 58px;
+  }
+  .sp-ledger__row {
+    grid-template-columns: minmax(0, 1fr);
+    background: var(--night);
+  }
+  .sp-ledger__k {
+    padding: 40px var(--sc-gutter) 20px;
+  }
+  .sp-ledger__v {
+    padding: 0 var(--sc-gutter) 40px;
+    border-top: 0;
+  }
+  .sp-ledger__v > span {
+    line-height: 1.75;
+  }
+  .sp-quotes__stack {
+    gap: 36px;
+  }
+  .sp-quote {
+    padding-bottom: 36px;
+  }
+  .sp-quote p {
+    font-size: 22px;
+    line-height: 1.5;
+  }
+  /* Long labels get the full measure, instead of two narrow text columns. */
+  .sp-numbers {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+  .sp-numbers > div {
+    padding-top: 28px;
+  }
+  .sp-num,
+  .sp-numbers--sm .sp-num {
+    font-size: 42px;
+    margin-bottom: 16px;
+  }
+  .sp-num--word {
+    font-size: 32px;
+  }
+  .sp-numbers dt,
+  .sp-numbers--sm dt {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .sp-numbers dt small {
+    margin-top: 8px;
+    line-height: 1.65;
+  }
+  .sp-commands {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sp-commands li {
+    padding: 24px;
+    gap: 10px;
+  }
+  .sp-card,
+  .sp-event {
+    padding: 28px 24px;
+  }
+  .sp-card > * + *,
+  .sp-event > * + * {
+    margin-top: 24px;
+  }
+  .sp-card__rows {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding-top: 28px;
+  }
+  .sp-card__rows dd {
+    overflow-wrap: anywhere;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+  .sp-poc {
+    flex-direction: column;
+    gap: 28px;
+  }
+  .sp-poc__info {
+    flex: none;
+    gap: 8px;
+  }
+  .sp-facts {
+    gap: 32px;
+  }
+  .sp-facts dt {
+    margin-bottom: 12px;
+  }
+  .sp-facts dd {
+    line-height: 1.7;
+  }
+  .sp-facts,
+  .sp-foot__cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sp-foot {
+    padding-block: 56px;
+  }
+  .sp-foot__cols {
+    gap: 36px;
+  }
+  .sp-foot__cols nav .sp-small {
+    margin-bottom: 12px;
+  }
+  .sp-foot__cols nav:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 359px) {
+  :root {
+    --sc-gutter: 24px;
+  }
+  .sp-card,
+  .sp-event {
+    padding: 28px 20px;
+  }
+  .sp-num,
+  .sp-numbers--sm .sp-num {
+    font-size: 38px;
+  }
+  .sp-num--word {
+    font-size: 30px;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 1199px) {
+  /* Seven quotes need their own grid; pairing them with one short column of
+     figures would leave a large empty strip on a tablet. */
+  #metrics .sp-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #metrics .sp-quotes__stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 40px;
+  }
+  #metrics .sp-numbers {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+  #metrics .sp-numbers > div:has(.sp-num--word) {
+    grid-column: auto;
+  }
+  #metrics .sp-num--word {
+    font-size: clamp(24px, 2.8vw, 32px);
+  }
+}
+
+/* ------------------------------------------------ mobile motion / touch -- */
+@media (max-width: 699px) and (prefers-reduced-motion: no-preference) {
+  .sp-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 180ms ease, color 220ms ease, border-color 220ms ease;
+  }
+  .sp-cta::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: var(--red);
+    opacity: 0;
+    scale: 0.92;
+    transition: opacity 240ms ease, scale 320ms var(--sc-ease-out);
+  }
+  .sp-cta:active {
+    transform: scale(0.975);
+    color: var(--ink-light);
+    border-color: var(--red);
+  }
+  .sp-cta:active::after,
+  .sp-cta:focus-visible::after {
+    opacity: 0.22;
+    scale: 1;
+  }
+  .sp-links a,
+  .sp-poc__info a {
+    background: linear-gradient(var(--red), var(--red)) no-repeat 0 100% / 0% 1px;
+    transition: background-size 240ms var(--sc-ease-out), color 160ms ease;
+  }
+  .sp-links a:active,
+  .sp-links a:focus-visible,
+  .sp-poc__info a:active,
+  .sp-poc__info a:focus-visible {
+    background-size: 100% 1px;
+  }
+  .sp-mobile-motion .sp-plate.sp-arrived::before {
+    animation: sp-grid-enter 1100ms var(--sc-ease-out) both;
+  }
+  .sp-mobile-motion :is(.sp-quote, .sp-numbers > div, .sp-slot) {
+    position: relative;
+  }
+  .sp-mobile-motion .sp-quote.sp-arrived::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -14px;
+    bottom: 36px;
+    width: 2px;
+    background: var(--red);
+    transform-origin: top;
+    animation: sp-quote-rule 850ms var(--sc-ease-out) both;
+    pointer-events: none;
+  }
+  .sp-mobile-motion .sp-numbers > .sp-arrived::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 64px;
+    height: 1px;
+    background: var(--red);
+    transform-origin: left;
+    animation: sp-number-rule 900ms var(--sc-ease-out) both;
+    pointer-events: none;
+  }
+  .sp-mobile-motion .sp-slot.sp-arrived::before {
+    animation: sp-file-mark 680ms var(--sc-ease-out) both;
+  }
+  .sp-mobile-motion .sp-num {
+    transform-origin: left bottom;
+  }
+  .sp-mobile-motion .sp-poc__photo {
+    transform-origin: center bottom;
+  }
+  @keyframes sp-grid-enter {
+    from { clip-path: inset(0 100% 0 0); opacity: 0.3; }
+    to { clip-path: inset(0); opacity: 1; }
+  }
+  @keyframes sp-quote-rule {
+    from { transform: scaleY(0); opacity: 1; }
+    to { transform: scaleY(1); opacity: 0.55; }
+  }
+  @keyframes sp-number-rule {
+    from { transform: scaleX(0); opacity: 1; }
+    to { transform: scaleX(1); opacity: 0.65; }
+  }
+  @keyframes sp-file-mark {
+    0% { transform: scale(0.4); background: var(--line-strong); box-shadow: 0 0 0 0 transparent; }
+    55% { transform: scale(1.2); background: var(--red); box-shadow: 0 0 0 6px rgba(254, 52, 57, 0.12); }
+    100% { transform: scale(1); background: var(--red); box-shadow: 0 0 0 0 transparent; }
   }
 }

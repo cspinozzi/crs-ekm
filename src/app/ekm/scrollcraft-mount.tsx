@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import { useEffect } from "react";
+import { useMobileMotion } from "./mobile-motion";
 
 declare global {
   interface Window {
@@ -20,12 +21,12 @@ const smooth = (x: number) => {
  *  - the filing: fragments on the dark side cross the seam and land in their slots
  *  - the seam: tips from 50% to 46% when the filing completes, collapses to 0 at the close
  *  - the progress fill along the divider
- * The engine itself is never touched.
+ * Compact layouts keep the seam still and read in normal document flow.
  */
 function startSplit() {
   const root = document.documentElement;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const stackedMQ = matchMedia("(max-width: 860px)");
+  const stackedMQ = matchMedia("(max-width: 1199px)");
   const peak = document.querySelector<HTMLElement>("[data-sp-peak]");
   const closeAct = document.querySelector<HTMLElement>("[data-sp-close]");
   const frags = Array.from(document.querySelectorAll<HTMLElement>("[data-sp-frag]"));
@@ -51,7 +52,7 @@ function startSplit() {
     });
   };
 
-  if (!reduce) root.classList.add("sp-live");
+  root.classList.toggle("sp-live", !reduce && !stackedMQ.matches);
 
   let lastP = -1;
   let lastPct = -1;
@@ -62,9 +63,9 @@ function startSplit() {
     const p = readP(peak);
     const c = readP(closeAct);
     const stacked = stackedMQ.matches;
-    const base = stacked ? innerHeight : innerWidth;
+    const base = innerWidth;
 
-    if (!reduce && (p !== lastP || base !== lastBase)) {
+    if (!reduce && !stacked && (p !== lastP || base !== lastBase)) {
       frags.forEach((f, i) => {
         const start = 0.06 + i * 0.06;
         const e = smooth((p - start) / 0.25);
@@ -79,8 +80,8 @@ function startSplit() {
     }
 
     // The seam. Tips once the shelf is full; gives way at the close.
-    const tip = reduce ? 0 : smooth((p - 0.73) / 0.2);
-    const col = reduce ? (c > 0.3 ? 1 : 0) : smooth(c / 0.55);
+    const tip = reduce || stacked ? 0 : smooth((p - 0.73) / 0.2);
+    const col = stacked ? 0 : reduce ? (c > 0.3 ? 1 : 0) : smooth(c / 0.55);
     const pct = (50 - 4 * tip) * (1 - col);
     if (pct !== lastPct || base !== lastBase) {
       root.style.setProperty("--split", `${pct.toFixed(3)}%`);
@@ -108,6 +109,7 @@ function startSplit() {
   };
 
   const remeasure = () => {
+    root.classList.toggle("sp-live", !reduce && !stackedMQ.matches);
     measure();
     lastP = -1;
   };
@@ -130,6 +132,7 @@ function start() {
 }
 
 export function ScrollCraftMount() {
+  useMobileMotion();
   useEffect(() => {
     start();
   }, []);

@@ -96,7 +96,7 @@ export default function EkmSplitPage() {
 
       <main id="top" className="sp">
         {/* 1 · Recognition: the split, established. */}
-        <section className="sp-act" data-sc-act="scrub" data-sc-span="1.3" data-sc-dwell="0.3" aria-labelledby="hero-title">
+        <section className="sp-act sp-hero" data-sc-act="scrub" data-sc-flow-at="1199" data-sc-span="1.3" data-sc-dwell="0.3" aria-labelledby="hero-title">
           <div className="sp-stage" data-sc-stage>
             <div className="sp-side sp-side--dark sp-hero__media">
               {/* The engine swaps this frame-holder for the clip; a plain <img> is what it expects. */}
@@ -170,7 +170,7 @@ export default function EkmSplitPage() {
         </section>
 
         {/* 3 · Clarity, the peak: the filing. The first case study's problem, resolved. */}
-        <section className="sp-act sp-act--peak" data-sc-act="pin" data-sc-span="3.4" data-sp-peak aria-labelledby="peak-title">
+        <section className="sp-act sp-act--peak" data-sc-act="pin" data-sc-flow-at="1199" data-sc-span="3.4" data-sp-peak aria-labelledby="peak-title">
           <div className="sp-stage" data-sc-stage>
             <div className="sp-side sp-side--dark sp-peak__left">
               <ul className="sp-frags" aria-hidden="true">
@@ -247,7 +247,7 @@ export default function EkmSplitPage() {
         </section>
 
         {/* 5 · Weight: their words against the record. */}
-        <section className="sp-act" data-sc-act="pin" data-sc-span="2.6" aria-labelledby="weight-title" id="metrics">
+        <section className="sp-act" data-sc-act="pin" data-sc-flow-at="1199" data-sc-span="2.6" aria-labelledby="weight-title" id="metrics">
           <div className="sp-stage" data-sc-stage>
             <div className="sp-side sp-side--dark">
               <div className="sp-block sp-seam">
@@ -297,8 +297,8 @@ export default function EkmSplitPage() {
                       {s.figure ? (
                         <dd className="sp-num">
                           {s.figure.prefix}
-                          <span data-sc-count={`0 ${s.figure.value}`} data-sc-count-at={`${(0.08 + i * 0.06).toFixed(2)} ${(0.45 + i * 0.05).toFixed(2)}`}>
-                            0
+                          <span data-sp-mobile-count={s.figure.value} data-sc-count={`0 ${s.figure.value}`} data-sc-count-at={`${(0.08 + i * 0.06).toFixed(2)} ${(0.45 + i * 0.05).toFixed(2)}`}>
+                            {s.figure.value}
                           </span>
                           {s.figure.suffix}
                         </dd>
